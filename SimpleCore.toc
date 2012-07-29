@@ -1,1 +1,10 @@
- 
+## Interface: 40300
+## Title: SimpleCore
+## Notes: A simple framework for creating addons
+## Author: Acheronsoft
+## Version: 1.0
+## SavedVariables: SimpleCoreDB
+
+SimpleCore.lua
+Tests.lua
+
