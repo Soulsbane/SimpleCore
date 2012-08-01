@@ -4,6 +4,7 @@ local AddonFrame = CreateFrame("Frame", AddonName .. "AddonFrame", UIParent)
 local AddonObject = {}
 local DebugEnabled = false
 local EventHandlers = {}
+local TimerDelay, TotalTimeElapsed = 1, 0
 
 local PRINTHEADER = "|cff33ff99" .. AddonName .. "|r: "
 local DEBUGHEADER = "|cff33ff99" .. AddonName .. "|cfffffb00" .. "(DEBUG)" .. "|r: "
@@ -57,3 +58,30 @@ function AddonObject:UnregisterEvent(event)
 end
 
 setmetatable(Addon, { __index = AddonObject})
+
+--------------------------------------
+-- Timer Functions
+---------------------------------------
+AddonFrame:SetScript("OnUpdate", function(self, elapsed)
+	TotalTimeElapsed = TotalTimeElapsed + elapsed
+	
+	if TotalTimeElapsed < TimerDelay then return end
+	TotalTimeElapsed = 0
+
+	DispatchMethod("OnTimer", elapsed)
+end)
+
+function Addon:StartTimer(delay)
+	if delay then
+		self:SetTimerDelay(delay)
+	end
+	AddonFrame:Show()
+end
+
+function Addon:StopTimer()
+	AddonFrame:Hide()
+end
+
+function Addon:SetTimerDelay(delay)
+	TimerDelay = delay
+end
