@@ -17,6 +17,20 @@ AddonFrame:RegisterEvent("ADDON_LOADED")
 ---------------------------------------
 -- Utility Functions 
 ---------------------------------------
+local function DispatchMethod(func, ...)
+	if type(func) == "string" and Addon[func] then
+		Addon[func](Addon, ...)
+	end
+end
+
+function Addon:DispatchModuleMethod(func, ...)
+	for k, v in pairs(Modules) do
+		if v[func] then
+			v[func](v, ...)		
+		end
+	end
+end
+
 function AddonObject:Print(...)
 	print(PRINTHEADER, string.format(...))
 end
@@ -105,4 +119,35 @@ function Addon:InitializeDB(defaults)
 	_G[name] = setmetatable(_G[name] or {}, {__index = SavedVariableDefaults})
 	self.db = {}
 	self.db = _G[name]
+end
+
+---------------------------------------
+-- Initialization Functions 
+---------------------------------------
+function Addon:PLAYER_LOGIN()
+	if self["OnSlashCommand"] then
+		self:RegisterSlashCommand(AddonName)	
+	end
+
+	DispatchMethod("OnReady")
+	self:DispatchModuleMethod("OnReady")
+end
+
+function Addon:PLAYER_LOGOUT()
+	FlushDB()
+end
+
+function Addon:ADDON_LOADED(event, ...)
+	self:StopTimer()
+
+	if ... == AddonName then
+		self:UnregisterEvent("ADDON_LOADED")
+		DispatchMethod("OnInitialize")
+		self:DispatchModuleMethod("OnInitialize")	
+
+		if IsLoggedIn() and Addon["OnReady"] then
+			DispatchMethod("OnReady")
+			self:DispatchModuleMethod("OnReady")
+		end
+	end
 end
