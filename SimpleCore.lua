@@ -102,6 +102,28 @@ function Addon:SetTimerDelay(delay)
 end
 
 ---------------------------------------
+-- Slash Command Functions
+---------------------------------------
+function Addon:RegisterSlashCommand(name, func)
+	if SlashCmdList[name] then
+		self:DebugPrint("Error: Slash command " .. command .. " already exists!")
+	else
+		_G["SLASH_".. name:upper().."1"] = "/" .. name
+
+		if type(func) == "string" then
+			--NOTE: Register a custom function to handle slash commands
+			SlashCmdList[name:upper()] = function(msg)
+				DispatchMethod(func, strsplit(" ", msg))
+			end
+		else
+			SlashCmdList[name:upper()] = function(msg)
+				DispatchMethod("OnSlashCommand", strsplit(" ", msg))	
+			end
+		end
+	end
+end
+
+---------------------------------------
 -- SavedVariables(Database) Functions 
 ---------------------------------------
 local function FlushDB()
