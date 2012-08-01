@@ -122,6 +122,21 @@ function Addon:InitializeDB(defaults)
 end
 
 ---------------------------------------
+-- Module System 
+---------------------------------------
+function Addon:NewModule(name)
+end
+
+function Addon:IsModuleEnabled(name)
+end
+
+function Addon:EnableModule(name)
+end
+
+function Addon:DisableModule(name)
+end
+
+---------------------------------------
 -- Initialization Functions 
 ---------------------------------------
 function Addon:PLAYER_LOGIN()
