@@ -1,6 +1,7 @@
 local AddonName, Addon = ...
 local AddonFrame = CreateFrame("Frame", AddonName .. "AddonFrame", UIParent)
 
+local AddonObject = {}
 local EventHandlers = {}
 
 local PRINTHEADER = "|cff33ff99" .. AddonName .. "|r: "
@@ -12,7 +13,7 @@ AddonFrame:RegisterEvent("ADDON_LOADED")
 ---------------------------------------
 -- Utility Functions 
 ---------------------------------------
-function Addon:Print(...)
+function AddonObject:Print(...)
 	print(PRINTHEADER, string.format(...))
 end
 
@@ -25,10 +26,15 @@ end
 
 AddonFrame:SetScript("OnEvent", OnEvent)
 
-function Addon:RegisterEvent(event, handler)
+function AddonObject:RegisterEvent(event, handler)
+	if not handler then
+		handler = event
+	end
 
 end
 
-function Addon:UnregisterEvent(event)
+function AddonObject:UnregisterEvent(event)
 
 end
+
+setmetatable(Addon, { __index = AddonObject})
