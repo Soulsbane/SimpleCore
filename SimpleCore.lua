@@ -3,6 +3,7 @@ local AddonFrame = CreateFrame("Frame", AddonName .. "AddonFrame", UIParent)
 
 local AddonObject = {}
 local DebugEnabled = false
+local SavedVariableDefaults
 local EventHandlers = {}
 local TimerDelay, TotalTimeElapsed = 1, 0
 
@@ -84,4 +85,24 @@ end
 
 function Addon:SetTimerDelay(delay)
 	TimerDelay = delay
+end
+
+---------------------------------------
+-- SavedVariables(Database) Functions 
+---------------------------------------
+local function FlushDB()
+	for k, v in pairs(SavedVariableDefaults) do
+		if v == Addon.db[k] then
+			Addon.db[k] = nil
+		end
+	end
+end
+
+function Addon:InitializeDB(defaults)
+	local name = AddonName .. "DB"
+	SavedVariableDefaults = defaults or {}
+
+	_G[name] = setmetatable(_G[name] or {}, {__index = SavedVariableDefaults})
+	self.db = {}
+	self.db = _G[name]
 end
