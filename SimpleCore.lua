@@ -56,16 +56,32 @@ end
 -- Event Registration Functions
 ---------------------------------------
 local function OnEvent(frame, event, ...)
+	local handlers = EventHandlers[event]
 
+	if handlers then
+		for obj, func in pairs(handlers) do
+				if type(func) == "string" then
+					if type(obj[func]) == "function" then
+						obj[func](obj, event, ...)
+					end
+				else
+					func(event, ...)
+				end
+			end
+	end
 end
 
 AddonFrame:SetScript("OnEvent", OnEvent)
 
 function AddonObject:RegisterEvent(event, handler)
 	if not handler then
-		handler = event
+		handler = event 
 	end
-
+	if not EventHandlers[event] then
+		EventHandlers[event] = {}
+		AddonFrame:RegisterEvent(event)
+	end
+	EventHandlers[event][self] = handler
 end
 
 function AddonObject:UnregisterEvent(event)
