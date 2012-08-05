@@ -88,8 +88,6 @@ function AddonObject:UnregisterEvent(event)
 
 end
 
-setmetatable(Addon, { __index = AddonObject})
-
 --------------------------------------
 -- Timer Functions
 ---------------------------------------
@@ -204,3 +202,5 @@ function Addon:ADDON_LOADED(event, ...)
 		end
 	end
 end
+
+setmetatable(Addon, { __index = AddonObject})
