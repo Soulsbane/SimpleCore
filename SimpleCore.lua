@@ -7,6 +7,9 @@ local SavedVariableDefaults
 local EventHandlers = {}
 local TimerDelay, TotalTimeElapsed = 1, 0
 
+local Modules = {}
+local DisabledModules = {}
+
 local PRINTHEADER = "|cff33ff99" .. AddonName .. "|r: "
 local DEBUGHEADER = "|cff33ff99" .. AddonName .. "|cfffffb00" .. "(DEBUG)" .. "|r: "
 
