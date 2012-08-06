@@ -10,10 +10,6 @@ local TimerDelay, TotalTimeElapsed = 1, 0
 local PRINTHEADER = "|cff33ff99" .. AddonName .. "|r: "
 local DEBUGHEADER = "|cff33ff99" .. AddonName .. "|cfffffb00" .. "(DEBUG)" .. "|r: "
 
-AddonFrame:RegisterEvent("PLAYER_LOGIN")
-AddonFrame:RegisterEvent("PLAYER_LOGOUT")
-AddonFrame:RegisterEvent("ADDON_LOADED")
-
 ---------------------------------------
 -- Utility Functions 
 ---------------------------------------
@@ -204,3 +200,6 @@ function Addon:ADDON_LOADED(event, ...)
 end
 
 setmetatable(Addon, { __index = AddonObject})
+Addon:RegisterEvent("PLAYER_LOGIN")
+Addon:RegisterEvent("PLAYER_LOGOUT")
+Addon:RegisterEvent("ADDON_LOADED")
