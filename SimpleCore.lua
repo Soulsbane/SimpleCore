@@ -23,6 +23,7 @@ local function DispatchMethod(func, ...)
 end
 
 function Addon:DispatchModuleMethod(func, ...)
+	--FIXME: Update to new EventHandler code
 	for k, v in pairs(Modules) do
 		if v[func] then
 			v[func](v, ...)		
@@ -38,16 +39,17 @@ end
 -- Debug Functions 
 ---------------------------------------
 function AddonObject:DebugPrint(...)
+	--TODO: Maybe add support for using the modules name in the print statement also
 	if DebugEnabled == true then
 		print(DEBUGHEADER, string.format(...))
 	end
 end
 
-function AddonObject:IsDebugEnabled()
+function Addon:IsDebugEnabled()
 	return DebugEnabled
 end
 
-function AddonObject:EnableDebug(enable)
+function Addon:EnableDebug(enable)
 	DebugEnabled = enable
 end
 
