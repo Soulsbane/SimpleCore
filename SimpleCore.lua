@@ -162,15 +162,53 @@ end
 -- Module System
 ---------------------------------------
 function Addon:NewModule(name)
+	local obj
+	local defaults = {
+		name = name,
+		printHeader = "|cff33ff99" .. AddonName .. "(" .. name .. ")".. "|r: ",
+		enabled = true,
+	}
+
+	obj = setmetatable(defaults, { __index = AddonObject })
+	Modules[name] = obj
+
+	return obj
 end
 
 function Addon:IsModuleEnabled(name)
+	return Modules[name].enabled
 end
 
 function Addon:EnableModule(name)
+	if DisabledModules[name] then
+		local obj
+
+		Modules[name] = DisabledModules[name]
+		obj = Modules[name]
+
+		if obj["OnEnable"] then
+			obj:OnEnable()
+		end
+	else
+		self:DebugPrint("Module, %s, is already enabled or not loaded!", name)
+	end
 end
 
 function Addon:DisableModule(name)
+	if Modules[name] then
+		local obj
+
+		DisabledModules[name] = Modules[name]
+		obj = Modules[name]
+
+		if obj["OnDisable"] then
+			obj:OnDisable()
+		end
+
+		Modules[name] = nil
+	else
+		self:DebugPrint("Module, %s, is already disabled or not loaded!", name)
+	end
 end
 
 ---------------------------------------
