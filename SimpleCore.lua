@@ -197,7 +197,7 @@ function Addon:ADDON_LOADED(event, ...)
 		DispatchMethod("OnInitialize")
 		self:DispatchModuleMethod("OnInitialize")
 
-		if IsLoggedIn() and Addon["OnFullyLoaded"] then
+		if IsLoggedIn() then
 			DispatchMethod("OnFullyLoaded")
 			self:DispatchModuleMethod("OnFullyLoaded")
 		end
