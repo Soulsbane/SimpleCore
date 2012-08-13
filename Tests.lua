@@ -18,7 +18,7 @@ function Addon:OnInitialize()
 end
 
 function Addon:OnFullyLoaded()
-	self:RegisterSlashCommand("simplecore", "OnSimpleCoreSlashCommand")
+	self:RegisterSlashCommand("sctests", "OnSimpleCoreTests")
 end
 
 function Addon:OnSlashCommand(...)
@@ -41,9 +41,9 @@ function Addon:OnSlashCommand(...)
 	end
 end
 
-function Addon:OnSimpleCoreSlashCommand(...)
+function Addon:OnSimpleCoreTests(...)
 	local msg = ...
-	self:Print("OnSimpleCoreSlashCommand: " .. msg)
+	self:Print("OnSimpleCoreTests: " .. msg)
 end
 
 function Addon:OnTimer(elapsed)
