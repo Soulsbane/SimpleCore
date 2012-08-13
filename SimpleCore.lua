@@ -14,7 +14,7 @@ local PRINTHEADER = "|cff33ff99" .. AddonName .. "|r: "
 local DEBUGHEADER = "|cff33ff99" .. AddonName .. "|cfffffb00" .. "(DEBUG)" .. "|r: "
 
 ---------------------------------------
--- Utility Functions 
+-- Utility Functions
 ---------------------------------------
 local function DispatchMethod(func, ...)
 	if type(func) == "string" and Addon[func] then
@@ -26,7 +26,7 @@ function Addon:DispatchModuleMethod(func, ...)
 	--FIXME: Update to new EventHandler code
 	for k, v in pairs(Modules) do
 		if v[func] then
-			v[func](v, ...)		
+			v[func](v, ...)
 		end
 	end
 end
@@ -36,7 +36,7 @@ function AddonObject:Print(...)
 end
 
 ---------------------------------------
--- Debug Functions 
+-- Debug Functions
 ---------------------------------------
 function AddonObject:DebugPrint(...)
 	--TODO: Maybe add support for using the modules name in the print statement also
@@ -76,7 +76,7 @@ AddonFrame:SetScript("OnEvent", OnEvent)
 
 function AddonObject:RegisterEvent(event, handler)
 	if not handler then
-		handler = event 
+		handler = event
 	end
 	if not EventHandlers[event] then
 		EventHandlers[event] = {}
@@ -94,7 +94,7 @@ end
 ---------------------------------------
 AddonFrame:SetScript("OnUpdate", function(self, elapsed)
 	TotalTimeElapsed = TotalTimeElapsed + elapsed
-	
+
 	if TotalTimeElapsed < TimerDelay then return end
 	TotalTimeElapsed = 0
 
@@ -132,14 +132,14 @@ function Addon:RegisterSlashCommand(name, func)
 			end
 		else
 			SlashCmdList[name:upper()] = function(msg)
-				DispatchMethod("OnSlashCommand", strsplit(" ", msg))	
+				DispatchMethod("OnSlashCommand", strsplit(" ", msg))
 			end
 		end
 	end
 end
 
 ---------------------------------------
--- SavedVariables(Database) Functions 
+-- SavedVariables(Database) Functions
 ---------------------------------------
 local function FlushDB()
 	for k, v in pairs(SavedVariableDefaults) do
@@ -159,7 +159,7 @@ function Addon:InitializeDB(defaults)
 end
 
 ---------------------------------------
--- Module System 
+-- Module System
 ---------------------------------------
 function Addon:NewModule(name)
 end
@@ -174,15 +174,15 @@ function Addon:DisableModule(name)
 end
 
 ---------------------------------------
--- Initialization Functions 
+-- Initialization Functions
 ---------------------------------------
 function Addon:PLAYER_LOGIN()
 	if self["OnSlashCommand"] then
-		self:RegisterSlashCommand(AddonName)	
+		self:RegisterSlashCommand(AddonName)
 	end
 
-	DispatchMethod("OnReady")
-	self:DispatchModuleMethod("OnReady")
+	DispatchMethod("OnFullyLoaded")
+	self:DispatchModuleMethod("OnFullyLoaded")
 end
 
 function Addon:PLAYER_LOGOUT()
@@ -195,11 +195,11 @@ function Addon:ADDON_LOADED(event, ...)
 	if ... == AddonName then
 		self:UnregisterEvent("ADDON_LOADED")
 		DispatchMethod("OnInitialize")
-		self:DispatchModuleMethod("OnInitialize")	
+		self:DispatchModuleMethod("OnInitialize")
 
-		if IsLoggedIn() and Addon["OnReady"] then
-			DispatchMethod("OnReady")
-			self:DispatchModuleMethod("OnReady")
+		if IsLoggedIn() and Addon["OnFullyLoaded"] then
+			DispatchMethod("OnFullyLoaded")
+			self:DispatchModuleMethod("OnFullyLoaded")
 		end
 	end
 end
