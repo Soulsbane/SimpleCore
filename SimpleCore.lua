@@ -32,6 +32,7 @@ function Addon:DispatchModuleMethod(func, ...)
 end
 
 function AddonObject:Print(...)
+	--TODO Add support for module print headers
 	print(PRINTHEADER, string.format(...))
 end
 
@@ -78,10 +79,20 @@ function AddonObject:RegisterEvent(event, handler)
 	if not handler then
 		handler = event
 	end
-	if not EventHandlers[event] then
-		EventHandlers[event] = {}
-		AddonFrame:RegisterEvent(event)
+
+	if type(event) == "table" then
+		for _,e in pairs(event) do
+			if not EventHandlers[event] then
+				EventHandlers[event] = {}
+				AddonFrame:RegisterEvent(event)
+			end
+	else
+		if not EventHandlers[event] then
+				EventHandlers[event] = {}
+				AddonFrame:RegisterEvent(event)
+		end
 	end
+
 	EventHandlers[event][self] = handler
 end
 
