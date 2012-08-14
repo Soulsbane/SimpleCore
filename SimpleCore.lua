@@ -86,6 +86,7 @@ function AddonObject:RegisterEvent(event, handler)
 				EventHandlers[event] = {}
 				AddonFrame:RegisterEvent(event)
 			end
+		end
 	else
 		if not EventHandlers[event] then
 				EventHandlers[event] = {}
