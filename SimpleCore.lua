@@ -32,8 +32,12 @@ function Addon:DispatchModuleMethod(func, ...)
 end
 
 function AddonObject:Print(...)
-	--TODO Add support for module print headers
-	print(PRINTHEADER, string.format(...))
+	--INFO: This is a module calling print so use it's header instead
+	if self.printHeader then
+		print(self.printHeader, string.format(...))
+	else
+		print(PRINTHEADER, string.format(...))
+	end
 end
 
 ---------------------------------------
