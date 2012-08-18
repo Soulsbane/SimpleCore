@@ -80,25 +80,25 @@ end
 AddonFrame:SetScript("OnEvent", OnEvent)
 
 function AddonObject:RegisterEvent(event, handler)
-	if not handler then
-		handler = event
-	end
-
 	if type(event) == "table" then
 		for _,e in pairs(event) do
-			if not EventHandlers[event] then
-				EventHandlers[event] = {}
-				AddonFrame:RegisterEvent(event)
+			if not EventHandlers[e] then
+				local handler = handler or e
+
+				EventHandlers[e] = {}
+				EventHandlers[e][self] = handler
+				AddonFrame:RegisterEvent(e)
 			end
 		end
 	else
 		if not EventHandlers[event] then
-				EventHandlers[event] = {}
-				AddonFrame:RegisterEvent(event)
+			local handler = handler or event
+
+			EventHandlers[event] = {}
+			EventHandlers[event][self] = handler
+			AddonFrame:RegisterEvent(event)
 		end
 	end
-
-	EventHandlers[event][self] = handler
 end
 
 function AddonObject:UnregisterEvent(event)
