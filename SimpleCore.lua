@@ -23,7 +23,6 @@ local function DispatchMethod(func, ...)
 end
 
 function Addon:DispatchModuleMethod(func, ...)
-	--FIXME: Update to new EventHandler code
 	for k, v in pairs(Modules) do
 		if v[func] then
 			v[func](v, ...)
@@ -80,24 +79,24 @@ end
 AddonFrame:SetScript("OnEvent", OnEvent)
 
 function AddonObject:RegisterEvent(event, handler)
+	if not handler then
+		handler = event
+	end
+
 	if type(event) == "table" then
 		for _,e in pairs(event) do
 			if not EventHandlers[e] then
-				local handler = handler or e
-
 				EventHandlers[e] = {}
-				EventHandlers[e][self] = handler
-				AddonFrame:RegisterEvent(e)
 			end
+			AddonFrame:RegisterEvent(e)
+			EventHandlers[e][self] = handler
 		end
 	else
 		if not EventHandlers[event] then
-			local handler = handler or event
-
 			EventHandlers[event] = {}
-			EventHandlers[event][self] = handler
-			AddonFrame:RegisterEvent(event)
 		end
+		AddonFrame:RegisterEvent(event)
+		EventHandlers[event][self] = handler
 	end
 end
 
@@ -192,7 +191,11 @@ function Addon:NewModule(name)
 end
 
 function Addon:IsModuleEnabled(name)
-	return Modules[name].enabled
+	if Modules[name] then
+		return Modules[name].enabled
+	end
+
+	return false
 end
 
 function Addon:EnableModule(name)

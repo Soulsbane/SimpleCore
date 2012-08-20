@@ -7,6 +7,6 @@
 
 SimpleCore.lua
 Tests.lua
-CombatStatus.lua
-Targets.lua
-Zones.lua
+Modules\CombatStatus.lua
+Modules\Targets.lua
+Modules\Zones.lua
