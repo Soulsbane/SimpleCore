@@ -6,5 +6,5 @@ function Module:OnInitialize()
 end
 
 function Module:PLAYER_TARGET_CHANGED()
-	self:Print("PLAYER_TARGET_CHANGED")
+	self:DebugPrint("PLAYER_TARGET_CHANGED")
 end

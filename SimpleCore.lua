@@ -43,9 +43,12 @@ end
 -- Debug Functions
 ---------------------------------------
 function AddonObject:DebugPrint(...)
-	--TODO: Maybe add support for using the modules name in the print statement also
 	if DebugEnabled == true then
-		print(DEBUGHEADER, string.format(...))
+		if self.debugHeader then
+			print(self.debugHeader, string.format(...))
+		else
+			print(DEBUGHEADER, string.format(...))
+		end
 	end
 end
 
@@ -180,7 +183,8 @@ function Addon:NewModule(name)
 	local obj
 	local defaults = {
 		name = name,
-		printHeader = "|cff33ff99" .. AddonName .. "(" .. name .. ")".. "|r: ",
+		printHeader = "|cff33ff99" .. AddonName .. "(" .. name .. ")" .. "|r: ",
+		debugHeader = "|cff33ff99" .. AddonName .. "(" .. name .. ")" .. "|cfffffb00" .. "(DEBUG)" .. "|r: ",
 		enabled = true,
 	}
 

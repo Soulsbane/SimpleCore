@@ -6,5 +6,5 @@ function Module:OnInitialize()
 end
 
 function Module:OnZoneChanged(event)
-	self:Print("OnZoneChanged: %s", event)
+	self:DebugPrint("OnZoneChanged: %s", event)
 end
