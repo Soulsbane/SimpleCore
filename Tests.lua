@@ -24,8 +24,8 @@ end
 function Addon:OnSlashCommand(...)
 	local msg, nextMsg = ...
 
-	if msg == "foo" then
-		self:Print("Testing msg argument: %s %s %s", msg, "and another", nextMsg)
+	if msg == "unregisterallevents" then
+		self:UnregisterAllEvents()
 	elseif msg == "timer" and nextMsg == "stop" then
 		self:Print("Stoping timer...")
 		self:StopTimer()

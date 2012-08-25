@@ -31,7 +31,7 @@ function Addon:DispatchModuleMethod(func, ...)
 end
 
 function AddonObject:Print(...)
-	--INFO: This is a module calling print so use it's header instead
+	--INFO: If this is a module calling print so use its header instead
 	if self.printHeader then
 		print(self.printHeader, string.format(...))
 	else
@@ -104,9 +104,27 @@ function AddonObject:RegisterEvent(event, handler)
 end
 
 function AddonObject:UnregisterEvent(event)
+	local obj = EventHandlers[event]
 
+	if obj then
+		obj[self] = nil
+		if not next(obj) then
+			EventHandlers[event] = nil
+			AddonFrame:UnregisterEvent(event)
+		end
+	end
 end
 
+function AddonObject:UnregisterAllEvents()
+	for event, obj in pairs(EventHandlers) do
+		obj[self] = nil
+
+		if not next(obj) then
+			EventHandlers[event] = nil
+			frame:UnregisterEvent(event)
+		end
+	end
+end
 --------------------------------------
 -- Timer Functions
 ---------------------------------------
