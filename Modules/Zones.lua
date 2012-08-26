@@ -2,6 +2,9 @@ local AddonName, Addon = ...
 local Module = Addon:NewModule("Zones")
 
 function Module:OnInitialize()
+end
+
+function Module:OnEnable()
 	self:RegisterEvent({"ZONE_CHANGED", "ZONE_CHANGED_NEW_AREA", "ZONE_CHANGED_INDOORS" }, "OnZoneChanged")
 end
 

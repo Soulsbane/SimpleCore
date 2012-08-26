@@ -246,6 +246,7 @@ function Addon:DisableModule(name)
 			obj:OnDisable()
 		end
 
+		obj:UnregisterAllEvents()
 		Modules[name] = nil
 	else
 		self:DebugPrint("Module, %s, is already disabled or not loaded!", name)
