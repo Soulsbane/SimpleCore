@@ -1,7 +1,6 @@
  local AddonName, Addon = ...
 _G[AddonName] = Addon
 
-
 local defaults = {
 	pingMsg = "Ping from: ",
 	coords = 0.0,

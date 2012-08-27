@@ -262,7 +262,7 @@ function Addon:PLAYER_LOGIN()
 	end
 
 	DispatchMethod("OnFullyLoaded")
-	self:DispatchModuleMethod("OnFullyLoaded")
+	self:DispatchModuleMethod("OnEnable")
 end
 
 function Addon:PLAYER_LOGOUT()
@@ -279,7 +279,7 @@ function Addon:ADDON_LOADED(event, ...)
 
 		if IsLoggedIn() then
 			DispatchMethod("OnFullyLoaded")
-			self:DispatchModuleMethod("OnFullyLoaded")
+			self:DispatchModuleMethod("OnEnable")
 		end
 	end
 end
