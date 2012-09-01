@@ -50,18 +50,17 @@ function Addon:OnTimer(elapsed)
 end
 
 function Addon:OnZoneChanged(event)
-	local db = Addon.db
+	local db = self.db
+
 	db["zone"] = GetZoneText()
 	self:DebugPrint("%s: %s", event, db.zone)
 end
 
 function Addon:PLAYER_TARGET_CHANGED(event)
 	self:DebugPrint(event)
-	if UnitExists("target") then
-	end
 end
 
 function Addon:OnMiniMapPing(event, unit, x, y)
-	Addon.db.coords = x
-	self:DebugPrint("%s %s X: %f Y: %f", Addon.db.pingMsg ,unit, x, y)
+	self.db.coords = x
+	self:DebugPrint("%s %s X: %f Y: %f", self.db.pingMsg ,unit, x, y)
 end
