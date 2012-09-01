@@ -278,8 +278,7 @@ function Addon:ADDON_LOADED(event, ...)
 		self:DispatchModuleMethod("OnInitialize")
 
 		if IsLoggedIn() then
-			DispatchMethod("OnFullyLoaded")
-			self:DispatchModuleMethod("OnEnable")
+			self:PLAYER_LOGIN()
 		end
 	end
 end
