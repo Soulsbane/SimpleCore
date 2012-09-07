@@ -25,25 +25,22 @@ SimpleCore is a framework for creating World of Warcraft addons.
 SimpleCore.lua
 MyAddon.lua
 ```
-
 2. Now we need to pull Addon object so we can access all of SimpleCore's features. We'll do this by adding the following to MyAddon.lua:
 
 ```lua
 local AddonName, Addon = ...
 ```
-
 3. It's time for "Hello World!":
 
 ```lua
 local AddonName, Addon = ...
 
 function Addon:OnSlashCommand(...)
-	local msg = ...
+    local msg = ...
 
 	self:Print(msg)
 end
 ```
-
 4. Once you've added the above code SimpleCore will automatically create a slash command based on your addon's name. Once you execute /myaddonname Hello World! your addon will print:
 
 > Hello World!
