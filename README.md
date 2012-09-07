@@ -14,6 +14,7 @@ SimpleCore is a framework for creating World of Warcraft addons.
 ## Getting Started
 
 1. Add SimpleCore.lua to your addon's toc file making sure it is at the top of the list.
+
 ```lua
 ## Interface: 50001
 ## Title: MyAddon
@@ -44,6 +45,7 @@ end
 ```
 
 4. Once you've added the above code SimpleCore will automatically create a slash command based on your addon's name. Once you execute /myaddonname Hello World! your addon will print:
+
 > Hello World!
 
 ## A Few Examples
