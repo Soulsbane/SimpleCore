@@ -15,16 +15,6 @@ SimpleCore is a framework for creating World of Warcraft addons.
 
 1. Add SimpleCore.lua to your addon's toc file making sure it is at the top of the list.
 
-```lua
-## Interface: 50001
-## Title: MyAddon
-## Notes: This is my addon
-## Author: Me
-## Version: 1.0
-## SavedVariables: SimpleCoreDB
-SimpleCore.lua
-MyAddon.lua
-```
 2. Now we need to pull Addon object so we can access all of SimpleCore's features. We'll do this by adding the following to MyAddon.lua:
 
 ```lua
