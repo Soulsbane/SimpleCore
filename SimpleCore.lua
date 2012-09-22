@@ -6,9 +6,7 @@ local DebugEnabled = false
 local SavedVariableDefaults
 local EventHandlers = {}
 local TimerDelay, TotalTimeElapsed = 1, 0
-
 local Modules = {}
-local DisabledModules = {}
 
 local PRINTHEADER = "|cff33ff99" .. AddonName .. "|r: "
 local DEBUGHEADER = "|cff33ff99" .. AddonName .. "|cfffffb00" .. "(DEBUG)" .. "|r: "
@@ -24,7 +22,7 @@ end
 
 function Addon:DispatchModuleMethod(func, ...)
 	for k, v in pairs(Modules) do
-		if v[func] then
+		if v[func] and v.enabled then
 			v[func](v, ...)
 		end
 	end
@@ -221,33 +219,27 @@ function Addon:IsModuleEnabled(name)
 end
 
 function Addon:EnableModule(name)
-	if DisabledModules[name] then
-		local obj
+	local obj = Modules[name]
 
-		Modules[name] = DisabledModules[name]
-		obj = Modules[name]
-
+	if obj then
 		if obj["OnEnable"] then
 			obj:OnEnable()
 		end
+		obj.enabled = true
 	else
 		self:DebugPrint("Module, %s, is already enabled or not loaded!", name)
 	end
 end
 
 function Addon:DisableModule(name)
-	if Modules[name] then
-		local obj
+	local obj = Modules[name]
 
-		DisabledModules[name] = Modules[name]
-		obj = Modules[name]
-
+	if obj then
 		if obj["OnDisable"] then
 			obj:OnDisable()
 		end
-
 		obj:UnregisterAllEvents()
-		Modules[name] = nil
+		obj.enabled = false
 	else
 		self:DebugPrint("Module, %s, is already disabled or not loaded!", name)
 	end
