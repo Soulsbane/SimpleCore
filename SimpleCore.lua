@@ -29,7 +29,7 @@ function Addon:DispatchModuleMethod(func, ...)
 end
 
 function AddonObject:Print(...)
-	--INFO: If this is a module calling print so use its header instead
+	--INFO: If this is a module calling Print use its header instead
 	if self.printHeader then
 		print(self.printHeader, string.format(...))
 	else
@@ -160,7 +160,7 @@ function Addon:RegisterSlashCommand(name, func)
 		_G["SLASH_".. name:upper().."1"] = "/" .. name
 
 		if type(func) == "string" then
-			--NOTE: Register a custom function to handle slash commands
+			--INFO: Register a custom function to handle slash commands
 			SlashCmdList[name:upper()] = function(msg)
 				DispatchMethod(func, strsplit(" ", msg))
 			end
