@@ -32,8 +32,10 @@ function Addon:OnSlashCommand(...)
 		self:Print("Starting timer...")
 		self:StartTimer()
 	elseif msg == "enable" and nextMsg then
+		self:Print("Enabling module %s", nextMsg)
 		self:EnableModule(nextMsg)
 	elseif msg == "disable" and nextMsg then
+		self:Print("Disabling module %s", nextMsg)
 		self:DisableModule(nextMsg)
 	else
 		self:Print(msg)
