@@ -79,47 +79,47 @@ end
 
 AddonFrame:SetScript("OnEvent", OnEvent)
 
-function AddonObject:RegisterEvent(event, handler)
+function AddonObject:RegisterEvent(eventName, handler)
 	if not handler then
-		handler = event
+		handler = eventName
 	end
 
-	if type(event) == "table" then
-		for _,e in pairs(event) do
-			if not EventHandlers[e] then
-				EventHandlers[e] = {}
+	if type(eventName) == "table" then
+		for _, name in pairs(eventName) do
+			if not EventHandlers[name] then
+				EventHandlers[name] = {}
 			end
-			AddonFrame:RegisterEvent(e)
-			EventHandlers[e][self] = handler
+			AddonFrame:RegisterEvent(name)
+			EventHandlers[name][self] = handler
 		end
 	else
-		if not EventHandlers[event] then
-			EventHandlers[event] = {}
+		if not EventHandlers[eventName] then
+			EventHandlers[eventName] = {}
 		end
-		AddonFrame:RegisterEvent(event)
-		EventHandlers[event][self] = handler
+		AddonFrame:RegisterEvent(eventName)
+		EventHandlers[eventName][self] = handler
 	end
 end
 
-function AddonObject:UnregisterEvent(event)
-	local obj = EventHandlers[event]
+function AddonObject:UnregisterEvent(eventName)
+	local obj = EventHandlers[eventName]
 
 	if obj then
 		obj[self] = nil
 		if not next(obj) then
-			EventHandlers[event] = nil
-			AddonFrame:UnregisterEvent(event)
+			EventHandlers[eventName] = nil
+			AddonFrame:UnregisterEvent(eventName)
 		end
 	end
 end
 
 function AddonObject:UnregisterAllEvents()
-	for event, obj in pairs(EventHandlers) do
+	for eventName, obj in pairs(EventHandlers) do
 		obj[self] = nil
 
 		if not next(obj) then
-			EventHandlers[event] = nil
-			frame:UnregisterEvent(event)
+			EventHandlers[eventName] = nil
+			frame:UnregisterEvent(eventName)
 		end
 	end
 end
