@@ -21,9 +21,9 @@ local function DispatchMethod(func, ...)
 end
 
 function Addon:DispatchModuleMethod(func, ...)
-	for k, v in pairs(Modules) do
-		if v[func] and v.enabled then
-			v[func](v, ...)
+	for name, obj in pairs(Modules) do
+		if obj[func] and obj.enabled then
+			obj[func](obj, ...)
 		end
 	end
 end
