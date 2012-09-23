@@ -190,6 +190,8 @@ function Addon:InitializeDB(defaults)
 	_G[name] = setmetatable(_G[name] or {}, {__index = SavedVariableDefaults})
 	self.db = {}
 	self.db = _G[name]
+
+	return self.db
 end
 
 ---------------------------------------
