@@ -26,25 +26,25 @@ function Addon:OnSlashCommand(...)
 	if msg == "unregisterallevents" then
 		self:UnregisterAllEvents()
 	elseif msg == "timer" and nextMsg == "stop" then
-		self:Print("Stoping timer...")
+		self:DebugPrint("Stoping timer...")
 		self:StopTimer()
 	elseif msg == "timer" and nextMsg == "start" then
-		self:Print("Starting timer...")
+		self:DebugPrint("Starting timer...")
 		self:StartTimer()
 	elseif msg == "enable" and nextMsg then
-		self:Print("Enabling module %s", nextMsg)
+		self:DebugPrint("Enabling module %s", nextMsg)
 		self:EnableModule(nextMsg)
 	elseif msg == "disable" and nextMsg then
-		self:Print("Disabling module %s", nextMsg)
+		self:DebugPrint("Disabling module %s", nextMsg)
 		self:DisableModule(nextMsg)
 	else
-		self:Print(msg)
+		self:DebugPrint(msg)
 	end
 end
 
 function Addon:OnSimpleCoreTests(...)
 	local msg = ...
-	self:Print("OnSimpleCoreTests: " .. msg)
+	self:DebugPrint("OnSimpleCoreTests: " .. msg)
 end
 
 function Addon:OnTimer(elapsed)
