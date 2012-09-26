@@ -128,7 +128,7 @@ end
 --------------------------------------
 -- Timer Functions
 ---------------------------------------
-function AddonObject:DispatchMessage(messageName)
+function AddonObject:DispatchMessage(messageName, ...)
 	local handlers = MessageHandlers[event]
 
 	if handlers then
