@@ -5,6 +5,7 @@ local AddonObject = {}
 local DebugEnabled = false
 local SavedVariableDefaults
 local EventHandlers = {}
+local MessageHandlers = {}
 local TimerDelay, TotalTimeElapsed = 1, 0
 local Modules = {}
 
@@ -123,6 +124,26 @@ function AddonObject:UnregisterAllEvents()
 		end
 	end
 end
+
+--------------------------------------
+-- Timer Functions
+---------------------------------------
+function AddonObject:DispatchMessage(messageName)
+
+end
+
+function AddonObject:RegisterMessage(messageName, handler)
+
+end
+
+function AddonObject:UnregisterMessage(messageName)
+
+end
+
+function AddonObject:UnregisterAllMessages()
+
+end
+
 --------------------------------------
 -- Timer Functions
 ---------------------------------------
