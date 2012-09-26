@@ -133,15 +133,44 @@ function AddonObject:DispatchMessage(messageName)
 end
 
 function AddonObject:RegisterMessage(messageName, handler)
+	if not handler then
+		handler = messageName
+	end
 
+	if type(messageName) == "table" then
+		for _, name in pairs(messageName) do
+			if not MessageHandlers[name] then
+				MessageHandlers[name] = {}
+			end
+			MessageHandlers[name][self] = handler
+		end
+	else
+		if not MessageHandlers[messageName] then
+			MessageHandlers[messageName] = {}
+		end
+		MessageHandlers[messageName][self] = handler
+	end
 end
 
 function AddonObject:UnregisterMessage(messageName)
+	local obj = MessageHandlers[messageName]
 
+	if obj then
+		obj[self] = nil
+		if not next(obj) then
+			MessageHandlers[messageName] = nil
+		end
+	end
 end
 
 function AddonObject:UnregisterAllMessages()
+	for messageName, obj in pairs(MessageHandlers) do
+		obj[self] = nil
 
+		if not next(obj) then
+			MessageHandlers[messageName] = nil
+		end
+	end
 end
 
 --------------------------------------
