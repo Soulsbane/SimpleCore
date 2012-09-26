@@ -129,7 +129,19 @@ end
 -- Timer Functions
 ---------------------------------------
 function AddonObject:DispatchMessage(messageName)
+	local handlers = MessageHandlers[event]
 
+	if handlers then
+		for obj, func in pairs(handlers) do
+				if type(func) == "string" then
+					if type(obj[func]) == "function" then
+						obj[func](obj, ...)
+					end
+				else
+					func(...)
+				end
+			end
+	end
 end
 
 function AddonObject:RegisterMessage(messageName, handler)
