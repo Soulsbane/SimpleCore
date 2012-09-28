@@ -126,7 +126,7 @@ function AddonObject:UnregisterAllEvents()
 end
 
 --------------------------------------
--- Timer Functions
+-- Message Event Functions
 ---------------------------------------
 function AddonObject:DispatchMessage(messageName, ...)
 	local handlers = MessageHandlers[event]
