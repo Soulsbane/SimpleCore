@@ -129,16 +129,16 @@ end
 -- Message Event Functions
 ---------------------------------------
 function AddonObject:DispatchMessage(messageName, ...)
-	local handlers = MessageHandlers[event]
+	local handlers = MessageHandlers[messageName]
 
 	if handlers then
 		for obj, func in pairs(handlers) do
 				if type(func) == "string" then
 					if type(obj[func]) == "function" then
-						obj[func](obj, ...)
+						obj[func](obj, messageName, ...)
 					end
 				else
-					func(...)
+					func(messageName, ...)
 				end
 			end
 	end
