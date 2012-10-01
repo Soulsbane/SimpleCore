@@ -120,7 +120,7 @@ function AddonObject:UnregisterAllEvents()
 
 		if not next(obj) then
 			EventHandlers[eventName] = nil
-			frame:UnregisterEvent(eventName)
+			AddonFrame:UnregisterEvent(eventName)
 		end
 	end
 end
