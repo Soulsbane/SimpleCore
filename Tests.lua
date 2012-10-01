@@ -15,6 +15,8 @@ function Addon:OnInitialize()
 	self:RegisterEvent({"ZONE_CHANGED", "ZONE_CHANGED_NEW_AREA", "ZONE_CHANGED_INDOORS" }, "OnZoneChanged")
 	self:RegisterEvent("PLAYER_TARGET_CHANGED")
 	self:RegisterEvent("MINIMAP_PING", "OnMiniMapPing")
+	self:RegisterEvent("PLAYER_REGEN_ENABLED")
+	self:RegisterEvent("PLAYER_REGEN_DISABLED")
 end
 
 function Addon:OnFullyLoaded()
@@ -66,4 +68,12 @@ end
 function Addon:OnMiniMapPing(event, unit, x, y)
 	self.db.coords = x
 	self:DebugPrint("%s %s X: %f Y: %f", self.db.pingMsg ,unit, x, y)
+end
+
+function Addon:PLAYER_REGEN_ENABLED()
+	self:DispatchMessage("OnLeavingCombat")
+end
+
+function Addon:PLAYER_REGEN_DISABLED()
+	self:DispatchMessage("OnEnteringCombat")
 end
