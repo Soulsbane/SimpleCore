@@ -5,6 +5,6 @@ function Module:OnInitialize()
 	self:RegisterMessage({"OnEnteringCombat", "OnLeavingCombat"}, "OnCombatStatusUpdate")
 end
 
-function Module:OnCombatStatusUpdate()
-	self:Print("OnCombatStatusUpdate")
+function Module:OnCombatStatusUpdate(message)
+	self:Print("OnCombatStatusUpdate: %s", message)
 end

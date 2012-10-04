@@ -3,7 +3,7 @@ local AddonFrame = CreateFrame("Frame", AddonName .. "AddonFrame", UIParent)
 
 local AddonObject = {}
 local DebugEnabled = false
-local SavedVariableDefaults
+--local SavedVariableDefaults
 local EventHandlers = {}
 local MessageHandlers = {}
 local TimerDelay, TotalTimeElapsed = 1, 0
@@ -238,7 +238,7 @@ end
 -- SavedVariables(Database) Functions
 ---------------------------------------
 local function FlushDB()
-	for k, v in pairs(SavedVariableDefaults) do
+	for k, v in pairs(Addon.db.defaults) do
 		if v == Addon.db[k] then
 			Addon.db[k] = nil
 		end
@@ -247,10 +247,10 @@ end
 
 function Addon:InitializeDB(defaults)
 	local name = AddonName .. "DB"
-	SavedVariableDefaults = defaults or {}
-
-	_G[name] = setmetatable(_G[name] or {}, {__index = SavedVariableDefaults})
 	self.db = {}
+	self.db.defaults = defaults or {}
+
+	_G[name] = setmetatable(_G[name] or {}, {__index = self.db.defaults})
 	self.db = _G[name]
 
 	return self.db
