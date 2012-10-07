@@ -4,7 +4,7 @@ _G[AddonName] = Addon
 local defaults = {
 	pingMsg = "Ping from: ",
 	coords = 0.0,
-	zone = "None",
+	zone = "The Jade Forest",
 }
 
 function Addon:OnInitialize()

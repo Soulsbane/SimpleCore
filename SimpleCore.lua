@@ -3,7 +3,6 @@ local AddonFrame = CreateFrame("Frame", AddonName .. "AddonFrame", UIParent)
 
 local AddonObject = {}
 local DebugEnabled = false
---local SavedVariableDefaults
 local EventHandlers = {}
 local MessageHandlers = {}
 local TimerDelay, TotalTimeElapsed = 1, 0
