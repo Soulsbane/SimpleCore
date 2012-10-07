@@ -258,9 +258,9 @@ end
 ---------------------------------------
 -- Module System
 ---------------------------------------
-function Addon:NewModule(name)
+function Addon:NewModule(name, defaults)
 	local obj
-	local defaults = {
+	local defaults = defaults or {
 		name = name,
 		printHeader = "|cff33ff99" .. AddonName .. "(" .. name .. ")" .. "|r: ",
 		debugHeader = "|cff33ff99" .. AddonName .. "(" .. name .. ")" .. "|cfffffb00" .. "(DEBUG)" .. "|r: ",
