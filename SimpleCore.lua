@@ -196,6 +196,8 @@ AddonFrame:SetScript("OnUpdate", function(self, elapsed)
 	DispatchMethod("OnTimer", elapsed)
 end)
 
+--TODO: Add support for delay, func. So OnUpdate calls func instead of OnTimer if func is specified
+
 function Addon:StartTimer(delay)
 	if delay then
 		self:SetTimerDelay(delay)
