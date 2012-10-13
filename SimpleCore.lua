@@ -5,7 +5,6 @@ local AddonObject = {}
 local DebugEnabled = false
 local EventHandlers = {}
 local MessageHandlers = {}
-local TimerDelay, TotalTimeElapsed = 1, 0
 local Timers = {}
 local Modules = {}
 
