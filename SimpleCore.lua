@@ -6,6 +6,7 @@ local DebugEnabled = false
 local EventHandlers = {}
 local MessageHandlers = {}
 local TimerDelay, TotalTimeElapsed = 1, 0
+local Timers = {}
 local Modules = {}
 
 local PRINTHEADER = "|cff33ff99" .. AddonName .. "|r: "
@@ -187,30 +188,47 @@ end
 --------------------------------------
 -- Timer Functions
 ---------------------------------------
+--TODO: Add code for repeating
 AddonFrame:SetScript("OnUpdate", function(self, elapsed)
-	TotalTimeElapsed = TotalTimeElapsed + elapsed
+	for _, timer in pairs(Timers) do
+		timer.totalTimeElapsed = timer.totalTimeElapsed + elapsed
 
-	if TotalTimeElapsed < TimerDelay then return end
-	TotalTimeElapsed = 0
-
-	DispatchMethod("OnTimer", elapsed)
+		if timer.totalTimeElapsed > timer.delay then
+			timer.object[timer.func](timer.object, elapsed)
+			timer.totalTimeElapsed = 0
+		end
+	end
 end)
 
---TODO: Add support for delay, func. So OnUpdate calls func instead of OnTimer if func is specified
+function AddonObject:StartTimer(delay, func, repeating, ...)
+	local timer = {}
 
-function Addon:StartTimer(delay)
-	if delay then
-		self:SetTimerDelay(delay)
-	end
+	timer.object = self
+	timer.delay = delay or 60
+	timer.repeating = repeating or false
+	--timer.args = args --Turn ... into a table
+	timer.totalTimeElapsed = 0
+	timer.func = func or "OnTimer"
+
+	local handle = tostring(timer)
+	Timers[handle] = timer
 	AddonFrame:Show()
+
+	return handle
 end
 
-function Addon:StopTimer()
-	AddonFrame:Hide()
+function AddonObject:StopTimer(handle)
+	if Timers[handle] then
+		Timers[handle] = nil
+	end
 end
 
-function Addon:SetTimerDelay(delay)
-	TimerDelay = delay
+function AddonObject:StopAllTimers()
+	wipe(Timers)
+end
+
+function AddonObject:SetTimerDelay(handle, delay)
+	Timers[handle].delay = delay
 end
 
 ---------------------------------------
