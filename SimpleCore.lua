@@ -195,22 +195,29 @@ AddonFrame:SetScript("OnUpdate", function(self, elapsed)
 
 		if timer.totalTimeElapsed > timer.delay then
 			timer.object[timer.func](timer.object, elapsed)
-			timer.totalTimeElapsed = 0
+
+			if timer.repeating then
+				timer.totalTimeElapsed = 0
+			else
+				--INFO: If this is a non-repeating timer remove it from Timers
+				Timers[timer.handle] = nil
+			end
 		end
 	end
 end)
 
 function AddonObject:StartTimer(delay, func, repeating, ...)
 	local timer = {}
+	local handle = tostring(timer)
 
 	timer.object = self
+	timer.handle = handle
 	timer.delay = delay or 60
 	timer.repeating = repeating or false
 	--timer.args = args --Turn ... into a table
 	timer.totalTimeElapsed = 0
 	timer.func = func or "OnTimer"
 
-	local handle = tostring(timer)
 	Timers[handle] = timer
 	AddonFrame:Show()
 
