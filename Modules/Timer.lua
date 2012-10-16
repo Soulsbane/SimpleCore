@@ -6,5 +6,5 @@ function Module:OnInitialize()
 end
 
 function Module:NonRepeatingTimer(elapsed)
-	self:Print("NonRepeatingTimer test....")
+	self:DebugPrint("NonRepeatingTimer test....")
 end
