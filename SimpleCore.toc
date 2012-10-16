@@ -9,4 +9,5 @@ SimpleCore.lua
 Tests.lua
 Modules\CombatStatus.lua
 Modules\Targets.lua
+Modules\Timer.lua
 Modules\Zones.lua

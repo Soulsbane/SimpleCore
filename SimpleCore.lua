@@ -187,7 +187,6 @@ end
 --------------------------------------
 -- Timer Functions
 ---------------------------------------
---TODO: Add code for repeating
 AddonFrame:SetScript("OnUpdate", function(self, elapsed)
 	for _, timer in pairs(Timers) do
 		timer.totalTimeElapsed = timer.totalTimeElapsed + elapsed
@@ -205,17 +204,22 @@ AddonFrame:SetScript("OnUpdate", function(self, elapsed)
 	end
 end)
 
-function AddonObject:StartTimer(delay, func, repeating, ...)
+function AddonObject:StartTimer(delay, func, repeating)
 	local timer = {}
 	local handle = tostring(timer)
 
 	timer.object = self
 	timer.handle = handle
 	timer.delay = delay or 60
-	timer.repeating = repeating or false
-	--timer.args = args --Turn ... into a table
+	timer.repeating = true
 	timer.totalTimeElapsed = 0
 	timer.func = func or "OnTimer"
+
+	if repeating == nil then
+		timer.repeating = true
+	else
+		timer.repeating = repeating
+	end
 
 	Timers[handle] = timer
 	AddonFrame:Show()
