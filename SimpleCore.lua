@@ -37,6 +37,16 @@ function AddonObject:Print(...)
 	end
 end
 
+function Addon:SetHeaders(printHeader, debugHeader)
+	if printHeader then
+		PRINTHEADER = printHeader
+	end
+
+	if debugHeader then
+		DEBUGHEADER = debugHeader
+	end
+end
+
 ---------------------------------------
 -- Debug Functions
 ---------------------------------------
