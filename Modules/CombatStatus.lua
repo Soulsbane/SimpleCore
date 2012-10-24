@@ -6,5 +6,5 @@ function Module:OnInitialize()
 end
 
 function Module:OnCombatStatusUpdate(message)
-	self:Print("OnCombatStatusUpdate: %s", message)
+	self:DebugPrint("OnCombatStatusUpdate: %s", message)
 end
