@@ -40,6 +40,8 @@ function Addon:OnSlashCommand(...)
 	elseif msg == "disable" and nextMsg then
 		self:DebugPrint("Disabling module %s", nextMsg)
 		self:DisableModule(nextMsg)
+	elseif msg == "pingmsg" and nextMsg then
+		self.db.pingMsg = nextMsg
 	else
 		self:DebugPrint(msg)
 	end
