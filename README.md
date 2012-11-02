@@ -5,11 +5,12 @@ SimpleCore is a framework for creating World of Warcraft addons.
 ## Feature Overview
 
 - Slash commands
-- Timer creation made easy
+- Timers
 - Modules
-- Saved variable support(though no profile management)
+- Saved variable support(no profile management à la Ace3)
 - Event Registration
-- Print and DebugPrint as well
+- Custom message events
+- Print and DebugPrint
 
 ## Getting Started
 
