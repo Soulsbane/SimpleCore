@@ -254,6 +254,20 @@ end
 ---------------------------------------
 -- Slash Command Functions
 ---------------------------------------
+local function HandleDebugToggle(msg)
+	local command, enable = strsplit(" ", msg)
+
+	if command == "debug" then
+		if enable == "enable" then
+			Addon:EnableDebug(true)
+			Addon:DispatchModuleMethod("EnableDebug", true)
+		else
+			Addon:EnableDebug(false)
+			Addon:DispatchModuleMethod("EnableDebug", true)
+		end
+	end
+end
+
 function Addon:RegisterSlashCommand(name, func)
 	if SlashCmdList[name] then
 		self:DebugPrint("Error: Slash command " .. command .. " already exists!")
@@ -263,10 +277,12 @@ function Addon:RegisterSlashCommand(name, func)
 		if type(func) == "string" then
 			--INFO: Register a custom function to handle slash commands
 			SlashCmdList[name:upper()] = function(msg)
+				HandleDebugToggle(msg)
 				DispatchMethod(func, strsplit(" ", msg))
 			end
 		else
 			SlashCmdList[name:upper()] = function(msg)
+				HandleDebugToggle(msg)
 				DispatchMethod("OnSlashCommand", strsplit(" ", msg))
 			end
 		end
