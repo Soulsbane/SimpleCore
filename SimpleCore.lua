@@ -263,7 +263,7 @@ local function HandleDebugToggle(msg)
 			Addon:DispatchModuleMethod("EnableDebug", true)
 		else
 			Addon:EnableDebug(false)
-			Addon:DispatchModuleMethod("EnableDebug", true)
+			Addon:DispatchModuleMethod("EnableDebug", false)
 		end
 	end
 end
