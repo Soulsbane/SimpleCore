@@ -11,6 +11,9 @@ local Modules = {}
 local PRINTHEADER = "|cff33ff99" .. AddonName .. "|r: "
 local DEBUGHEADER = "|cff33ff99" .. AddonName .. "|cfffffb00" .. "(DEBUG)" .. "|r: "
 
+Addon.FrameworkName = "SimpleCore"
+Addon.FrameworkVersion = "1.0.0"
+
 ---------------------------------------
 -- Utility Functions
 ---------------------------------------
