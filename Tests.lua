@@ -5,6 +5,7 @@ local defaults = {
 	pingMsg = "Ping from: ",
 	coords = 0.0,
 	zone = "The Jade Forest",
+	zonesLogged = {},
 }
 
 function Addon:OnInitialize()
@@ -58,8 +59,11 @@ end
 
 function Addon:OnZoneChanged(event)
 	local db = self.db
+	local zone = GetZoneText()
 
-	db["zone"] = GetZoneText()
+	db["zone"] = zone
+	self.db.zonesLogged[zone] = zone
+
 	self:DebugPrint("%s: %s", event, db.zone)
 end
 

@@ -295,20 +295,30 @@ end
 ---------------------------------------
 -- SavedVariables(Database) Functions
 ---------------------------------------
-local function FlushDB()
-	for k, v in pairs(Addon.db.defaults) do
-		if v == Addon.db[k] then
-			Addon.db[k] = nil
+local function CopyDefaults(src, dest)
+	for k, v in pairs(src) do
+		if type(v) == "table" then
+			if not rawget(dest, k) then rawset(dest, k, {}) end
+			if type(dest[k]) == "table" then
+				CopyDefaults(dest[k], v)
+			end
+		else
+			if rawget(dest, k) == nil then
+				rawset(dest, k, v)
+			end
 		end
 	end
 end
 
 function Addon:InitializeDB(defaults)
 	local name = AddonName .. "DB"
-	self.db = {}
-	self.db.defaults = defaults or {}
+	local db = {}
 
-	_G[name] = setmetatable(_G[name] or {}, {__index = self.db.defaults})
+	if defaults then
+		CopyDefaults(defaults, db)
+	end
+
+	_G[name] = db
 	self.db = _G[name]
 
 	return self.db
@@ -379,10 +389,6 @@ function Addon:PLAYER_LOGIN()
 	self:DispatchModuleMethod("OnEnable")
 end
 
-function Addon:PLAYER_LOGOUT()
-	FlushDB()
-end
-
 function Addon:ADDON_LOADED(event, ...)
 	self:StopTimer()
 
@@ -399,5 +405,4 @@ end
 
 setmetatable(Addon, { __index = AddonObject})
 Addon:RegisterEvent("PLAYER_LOGIN")
-Addon:RegisterEvent("PLAYER_LOGOUT")
 Addon:RegisterEvent("ADDON_LOADED")
