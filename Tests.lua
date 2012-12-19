@@ -59,10 +59,10 @@ end
 
 function Addon:OnZoneChanged(event)
 	local db = self.db
-	local zone = GetZoneText()
+	local zone = GetSubZoneText()
 
 	db["zone"] = zone
-	self.db.zonesLogged[zone] = zone
+	db.zonesLogged[zone] = zone
 
 	self:DebugPrint("%s: %s", event, db.zone)
 end
