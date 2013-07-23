@@ -205,7 +205,7 @@ AddonFrame:SetScript("OnUpdate", function(self, elapsed)
 		timer.totalTimeElapsed = timer.totalTimeElapsed + elapsed
 
 		if timer.totalTimeElapsed > timer.delay then
-			timer.object[timer.func](timer.object, elapsed)
+			timer.object[timer.func](timer.object, elapsed, timer.name)
 
 			if timer.repeating then
 				timer.totalTimeElapsed = 0
@@ -217,7 +217,7 @@ AddonFrame:SetScript("OnUpdate", function(self, elapsed)
 	end
 end)
 
-function AddonObject:StartTimer(delay, func, repeating)
+function AddonObject:StartTimer(delay, func, repeating, name)
 	local timer = {}
 	local handle = tostring(timer)
 
@@ -227,6 +227,7 @@ function AddonObject:StartTimer(delay, func, repeating)
 	timer.repeating = true
 	timer.totalTimeElapsed = 0
 	timer.func = func or "OnTimer"
+	timer.name = name or "DefaultTimer" -- NOTE: If you are going to create more than one timer you should really name it
 
 	if repeating == nil then
 		timer.repeating = true
@@ -242,11 +243,13 @@ end
 
 function AddonObject:StopTimer(handle)
 	if Timers[handle] then
+		DispatchMethod("OnTimerStop", Timers[handle].name)
 		Timers[handle] = nil
 	end
 end
 
 function AddonObject:StopAllTimers()
+	--TODO: Dispatch calls to stop functions
 	wipe(Timers)
 end
 

@@ -1,5 +1,6 @@
  local AddonName, Addon = ...
 _G[AddonName] = Addon
+local timer = {}
 
 local defaults = {
 	pingMsg = "Ping from: ",
@@ -11,7 +12,7 @@ local defaults = {
 function Addon:OnInitialize()
 	self:EnableDebug(true)
 	self:InitializeDB(defaults)
-	self:StartTimer(60)
+	timer = self:StartTimer(10)
 
 	self:RegisterEvent({"ZONE_CHANGED", "ZONE_CHANGED_NEW_AREA", "ZONE_CHANGED_INDOORS" }, "OnZoneChanged")
 	self:RegisterEvent("PLAYER_TARGET_CHANGED")
@@ -31,7 +32,7 @@ function Addon:OnSlashCommand(...)
 		self:UnregisterAllEvents()
 	elseif msg == "timer" and nextMsg == "stop" then
 		self:DebugPrint("Stoping timer...")
-		self:StopTimer()
+		self:StopTimer(timer)
 	elseif msg == "timer" and nextMsg == "start" then
 		self:DebugPrint("Starting timer...")
 		self:StartTimer()
@@ -53,8 +54,12 @@ function Addon:OnSimpleCoreTests(...)
 	self:DebugPrint("OnSimpleCoreTests: " .. msg)
 end
 
-function Addon:OnTimer(elapsed)
-	self:DebugPrint("Addon:OnTimer -> " .. tostring(elapsed))
+function Addon:OnTimer(elapsed, name)
+	self:DebugPrint("Addon:OnTimer -> " .. tostring(elapsed) .. " " .. name)
+end
+
+function Addon:OnTimerStop(name)
+	self:DebugPrint("Stopping timer: " .. name)
 end
 
 function Addon:OnZoneChanged(event)
