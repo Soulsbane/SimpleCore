@@ -20,6 +20,8 @@ Addon.FrameworkVersion = "1.0.0"
 local function DispatchMethod(func, ...)
 	if type(func) == "string" and Addon[func] then
 		Addon[func](Addon, ...)
+	elseif type(func) == "function" then
+		func(...)
 	end
 end
 
@@ -211,7 +213,8 @@ AddonFrame:SetScript("OnUpdate", function(self, elapsed)
 				timer.totalTimeElapsed = 0
 			else
 				--INFO: If this is a non-repeating timer remove it from Timers
-				Timers[timer.handle] = nil
+				--Timers[timer.handle] = nil
+				timer.object:StopTimer(timer.handle)
 			end
 		end
 	end
@@ -250,6 +253,7 @@ end
 
 function AddonObject:StopAllTimers()
 	--TODO: Dispatch calls to stop functions
+	DispatchMethod("OnStopAllTimers")
 	wipe(Timers)
 end
 

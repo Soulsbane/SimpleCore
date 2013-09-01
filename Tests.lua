@@ -62,6 +62,10 @@ function Addon:OnTimerStop(name)
 	self:DebugPrint("Stopping timer: " .. name)
 end
 
+function Addon:OnStopAllTimers()
+	self:DebugPrint("Stoping all timers!")
+end
+
 function Addon:OnZoneChanged(event)
 	local db = self.db
 	local zone = GetSubZoneText()
