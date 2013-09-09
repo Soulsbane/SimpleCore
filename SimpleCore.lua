@@ -266,7 +266,7 @@ end
 ---------------------------------------
 local function HandleDebugToggle(msg)
 	local command, enable = strsplit(" ", msg)
-
+-- FIXME: EnableDebug changed to DebugToggle
 	if command == "debug" then
 		if enable == "enable" then
 			Addon:EnableDebug(true)
@@ -330,6 +330,31 @@ function Addon:InitializeDB(defaults)
 
 	return self.db
 end
+
+
+---------------------------------------
+-- Defer Function Calls
+---------------------------------------
+local DeferFrame = CreateFrame("Frame", AddonName .. "DeferFrame", UIParent)
+DeferFrame.Queue = {}
+
+function Addon:DeferFunctionCall(func, ...)
+	local args = { ... }
+
+	if InCombatLockdown() then
+		DeferFrame.Queue[func] = { ... }
+	else
+		DispatchMethod(func, ...)
+	end
+end
+
+DeferFrame:RegisterEvent("PLAYER_REGEN_ENABLED")
+DeferFrame:SetScript("OnEvent", function(self, event, ...)
+    for func, args in pairs(DeferFrame.Queue) do
+        DispatchMethod(func, unpack(args))
+    end
+    table.wipe(DeferFrame.Queue)
+end)
 
 ---------------------------------------
 -- Module System
