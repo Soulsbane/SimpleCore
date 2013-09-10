@@ -343,8 +343,10 @@ function Addon:DeferFunctionCall(func, ...)
 
 	if InCombatLockdown() then
 		DeferFrame.Queue[func] = { ... }
+		return true
 	else
 		DispatchMethod(func, ...)
+		return false
 	end
 end
 
