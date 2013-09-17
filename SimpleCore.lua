@@ -411,6 +411,10 @@ function Addon:DisableModule(name)
 	end
 end
 
+function Addon:IterateModules()
+	return Modules
+end
+
 ---------------------------------------
 -- Initialization Functions
 ---------------------------------------
