@@ -1,5 +1,6 @@
  local AddonName, Addon = ...
 _G[AddonName] = Addon
+--FIXME: timer needs to be Timer and store the timer object once API is corrected and tested throughly.
 local timer = {}
 
 local defaults = {

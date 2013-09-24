@@ -221,6 +221,7 @@ AddonFrame:SetScript("OnUpdate", function(self, elapsed)
 end)
 
 function AddonObject:StartTimer(delay, func, repeating, name)
+	--FIXME: This function should really return the new object since it stores the handle anyway
 	local timer = {}
 	local handle = tostring(timer)
 
@@ -338,7 +339,7 @@ end
 local DeferFrame = CreateFrame("Frame", AddonName .. "DeferFrame", UIParent)
 DeferFrame.Queue = {}
 
-function Addon:DeferFunctionCall(func, ...)
+function AddonObject:DeferFunctionCall(func, ...)
 	local args = { ... }
 
 	if InCombatLockdown() then
