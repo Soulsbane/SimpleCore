@@ -221,7 +221,6 @@ AddonFrame:SetScript("OnUpdate", function(self, elapsed)
 end)
 
 function AddonObject:StartTimer(delay, func, repeating, name)
-	--FIXME: This function should really return the new object since it stores the handle anyway
 	local timer = {}
 	local handle = tostring(timer)
 
@@ -232,6 +231,7 @@ function AddonObject:StartTimer(delay, func, repeating, name)
 	timer.totalTimeElapsed = 0
 	timer.func = func or "OnTimer"
 	timer.name = name or "DefaultTimer" -- NOTE: If you are going to create more than one timer you should really name it
+	--FIXME: Maybe append handle string to the end of DefaultTimer if name isn't provided to avoid collisions.
 
 	if repeating == nil then
 		timer.repeating = true

@@ -1,7 +1,7 @@
  local AddonName, Addon = ...
 _G[AddonName] = Addon
---FIXME: timer needs to be Timer and store the timer object once API is corrected and tested throughly.
-local timer = {}
+
+local RepeatingTimer
 
 local defaults = {
 	pingMsg = "Ping from: ",
@@ -13,7 +13,7 @@ local defaults = {
 function Addon:OnInitialize()
 	self:EnableDebug(true)
 	self:InitializeDB(defaults)
-	timer = self:StartTimer(10)
+	RepeatingTimer = self:StartTimer(10) --NOTE: We don't need a variable here if you don't plan on ever calling StopTimer
 
 	self:RegisterEvent({"ZONE_CHANGED", "ZONE_CHANGED_NEW_AREA", "ZONE_CHANGED_INDOORS" }, "OnZoneChanged")
 	self:RegisterEvent("PLAYER_TARGET_CHANGED")
@@ -33,7 +33,7 @@ function Addon:OnSlashCommand(...)
 		self:UnregisterAllEvents()
 	elseif msg == "timer" and nextMsg == "stop" then
 		self:DebugPrint("Stoping timer...")
-		self:StopTimer(timer)
+		self:StopTimer(RepeatingTimer)
 	elseif msg == "timer" and nextMsg == "start" then
 		self:DebugPrint("Starting timer...")
 		self:StartTimer()
