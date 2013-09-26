@@ -221,7 +221,7 @@ end)
 
 function AddonObject:StartTimer(delay, func, repeating, name)
 	local timer = {}
-	local name = name or "DefaultTimer" .. tostring(timer) -- NOTE: If you are going to create more than one timer you should really name it
+	local name = name or tostring(timer) -- NOTE: If you are going to create more than one timer you should really name it
 
 	timer.object = self
 	timer.delay = delay or 60
@@ -238,6 +238,8 @@ function AddonObject:StartTimer(delay, func, repeating, name)
 
 	Timers[name] = timer
 	AddonFrame:Show()
+
+	return name
 end
 
 function AddonObject:StopTimer(name)
