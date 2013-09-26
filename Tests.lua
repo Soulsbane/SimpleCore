@@ -11,7 +11,7 @@ local defaults = {
 function Addon:OnInitialize()
 	self:EnableDebug(true)
 	self:InitializeDB(defaults)
-	self:StartTimer(10) --NOTE: We don't need a variable here if you don't plan on ever calling StopTimer
+	self:StartTimer(10, nil, nil, "RepeatingTimer") --NOTE: We don't need a variable here if you don't plan on ever calling StopTimer
 
 	self:RegisterEvent({"ZONE_CHANGED", "ZONE_CHANGED_NEW_AREA", "ZONE_CHANGED_INDOORS" }, "OnZoneChanged")
 	self:RegisterEvent("PLAYER_TARGET_CHANGED")
