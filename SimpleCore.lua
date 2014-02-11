@@ -33,12 +33,29 @@ function Addon:DispatchModuleMethod(func, ...)
 	end
 end
 
+local function Printf(header, ...)
+	if select("#", ...) > 1 then
+		local success, txt = pcall(string.format, ...)
+
+	    if success then
+	        print(header .. txt)
+	    else
+	    	if Addon:IsDebugEnabled() then --INFO: We will only make it here if a nil value was passed so only show if debug mode is enabled　
+	        	print(DEBUGHEADER .. string.gsub(txt, "'%?'", string.format("'%s'", "Printf")))
+	        end
+	    end
+	else
+		local txt = ...
+		print(header .. txt)
+	end
+end
+
 function AddonObject:Print(...)
 	--INFO: If this is a module calling Print use its header instead
-	if self.printHeader then
-		print(self.printHeader, string.format(...))
+	if self ~= Addon then
+		Printf(self.printHeader, ...)
 	else
-		print(PRINTHEADER, string.format(...))
+		Printf(PRINTHEADER, ...)
 	end
 end
 
@@ -55,12 +72,27 @@ end
 ---------------------------------------
 -- Debug Functions
 ---------------------------------------
+local function DebugPrintf(header, ...)
+	if select("#", ...) > 1 then
+		local success, txt = pcall(string.format, ...)
+
+	    if success then
+	        print(header .. txt)
+	    else
+        	print(DEBUGHEADER .. string.gsub(txt, "'%?'", string.format("'%s'", "Printf")))
+	    end
+	else
+		local txt = ...
+		print(header .. txt)
+	end
+end
+
 function AddonObject:DebugPrint(...)
 	if DebugEnabled == true then
 		if self.debugHeader then
-			print(self.debugHeader, string.format(...))
+			DebugPrintf(self.debugHeader, ...)
 		else
-			print(DEBUGHEADER, string.format(...))
+			DebugPrintf(DEBUGHEADER, ...)
 		end
 	end
 end
