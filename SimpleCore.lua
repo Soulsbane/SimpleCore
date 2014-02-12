@@ -280,8 +280,8 @@ end
 
 function AddonObject:StopAllTimers()
 	--TODO: Dispatch calls to stop functions
-	DispatchMethod("OnStopAllTimers")
 	wipe(Timers)
+	DispatchMethod("OnStopAllTimers")
 end
 
 function AddonObject:SetTimerDelay(name, delay)
