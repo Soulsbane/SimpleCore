@@ -293,7 +293,7 @@ end
 ---------------------------------------
 local function HandleDebugToggle(msg)
 	local command, enable = strsplit(" ", msg)
--- FIXME: EnableDebug changed to DebugToggle
+
 	if command == "debug" then
 		if enable == "enable" then
 			Addon:EnableDebug(true)
@@ -450,7 +450,7 @@ function Addon:PLAYER_LOGIN()
 		self:RegisterSlashCommand(AddonName)
 	end
 
-	DispatchMethod("OnFullyLoaded")
+	DispatchMethod("OnEnable")
 	self:DispatchModuleMethod("OnEnable")
 end
 
