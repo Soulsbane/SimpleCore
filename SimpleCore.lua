@@ -37,13 +37,17 @@ local function Printf(header, ...)
 	    if success then
 	        print(header .. txt)
 	    else
-	    	if Addon:IsDebugEnabled() then --INFO: We will only make it here if a nil value was passed so only show if debug mode is enabled　
+	    	if DebugEnabled then --INFO: We will only make it here if a nil value was passed so only show if debug mode is enabled　
 	        	print(DEBUGHEADER .. string.gsub(txt, "'%?'", string.format("'%s'", "Printf")))
 	        end
 	    end
 	else
 		local txt = ...
-		print(header .. txt)
+		if text then
+			print(header .. txt)
+		else
+			print(DEBUGHEADER .. "nil value passed to Printf")
+		end
 	end
 end
 
@@ -87,9 +91,9 @@ end
 function AddonObject:DebugPrint(...)
 	if DebugEnabled == true then
 		if self.debugHeader then
-			DebugPrintf(self.debugHeader, ...)
+			Printf(self.debugHeader, ...)
 		else
-			DebugPrintf(DEBUGHEADER, ...)
+			Printf(DEBUGHEADER, ...)
 		end
 	end
 end
