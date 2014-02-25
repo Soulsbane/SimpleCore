@@ -73,21 +73,6 @@ end
 ---------------------------------------
 -- Debug Functions
 ---------------------------------------
-local function DebugPrintf(header, ...)
-	if select("#", ...) > 1 then
-		local success, txt = pcall(string.format, ...)
-
-	    if success then
-	        print(header .. txt)
-	    else
-        	print(DEBUGHEADER .. string.gsub(txt, "'%?'", string.format("'%s'", "Printf")))
-	    end
-	else
-		local txt = ...
-		print(header .. txt)
-	end
-end
-
 function AddonObject:DebugPrint(...)
 	if DebugEnabled == true then
 		if self.debugHeader then
