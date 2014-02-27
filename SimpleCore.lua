@@ -43,7 +43,8 @@ local function Printf(header, ...)
 	    end
 	else
 		local txt = ...
-		if text then
+
+		if txt then
 			print(header .. txt)
 		else
 			print(DEBUGHEADER .. "nil value passed to Printf")
