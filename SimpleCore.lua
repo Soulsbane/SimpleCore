@@ -288,7 +288,9 @@ local function HandleDebugToggle(msg)
 		if enable == "enable" then
 			Addon:EnableDebug(true)
 			Addon:DispatchModuleMethod("EnableDebug", true)
+			Addon:DebugPrint("Enabling debug mode!")
 		else
+			Addon:DebugPrint("Disabling debug mode!")
 			Addon:EnableDebug(false)
 			Addon:DispatchModuleMethod("EnableDebug", false)
 		end
