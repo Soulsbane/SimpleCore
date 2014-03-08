@@ -47,7 +47,7 @@ local function Printf(header, ...)
 		if txt then
 			print(header .. txt)
 		else
-			print(DEBUGHEADER .. "nil value passed to Printf")
+			print(DEBUGHEADER .. "Nil value was passed to Printf!")
 		end
 	end
 end
