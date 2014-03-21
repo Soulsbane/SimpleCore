@@ -100,14 +100,14 @@ local function OnEvent(frame, event, ...)
 
 	if handlers then
 		for obj, func in pairs(handlers) do
-				if type(func) == "string" then
-					if type(obj[func]) == "function" then
-						obj[func](obj, event, ...)
-					end
-				else
-					func(event, ...)
+			if type(func) == "string" then
+				if type(obj[func]) == "function" then
+					obj[func](obj, event, ...)
 				end
+			else
+				func(event, ...)
 			end
+		end
 	end
 end
 
