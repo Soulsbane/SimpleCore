@@ -4,6 +4,7 @@
 ## Author: Acheronsoft
 ## Version: 1.0
 ## SavedVariables: SimpleCoreDB
+## OptionalDeps: AdiDebug
 
 SimpleCore.lua
 Tests.lua
