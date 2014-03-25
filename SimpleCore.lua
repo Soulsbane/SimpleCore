@@ -75,7 +75,7 @@ end
 -- Debug Functions
 ---------------------------------------
 function AddonObject:DebugPrint(...)
-	if DebugEnabled == true then
+	if DebugEnabled then
 		if self.debugHeader then
 			Printf(self.debugHeader, ...)
 		else
