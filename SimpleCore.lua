@@ -52,6 +52,28 @@ local function Printf(header, ...)
 	end
 end
 
+local function GetFormattedString(header, ...) --TODO: Make Print use this method in the same was as DebugPrint
+	if select("#", ...) > 1 then
+		local success, txt = pcall(string.format, ...)
+
+	    if success then
+	        return (header .. txt)
+	    else
+	    	if DebugEnabled then --INFO: We will only make it here if a nil value was passed so only show if debug mode is enabled　
+	        	return (DEBUGHEADER .. string.gsub(txt, "'%?'", string.format("'%s'", "Printf")))
+	        end
+	    end
+	else
+		local txt = ...
+
+		if txt then
+			return (header .. txt)
+		else
+			return (DEBUGHEADER .. "Nil value was passed to Printf!")
+		end
+	end
+end
+
 function AddonObject:Print(...)
 	--INFO: If this is a module calling Print use its header instead
 	if self ~= Addon then
@@ -74,12 +96,16 @@ end
 ---------------------------------------
 -- Debug Functions
 ---------------------------------------
+local function DebugPrint(msg) --INFO: If AdiDebug is enabled this function will be overridden with AdiDebug's function
+	print(msg)
+end
+
 function AddonObject:DebugPrint(...)
 	if DebugEnabled then
 		if self.debugHeader then
-			Printf(self.debugHeader, ...)
+			DebugPrint(GetFormattedString(self.debugHeader, ...))
 		else
-			Printf(DEBUGHEADER, ...)
+			DebugPrint(GetFormattedString(DEBUGHEADER, ...))
 		end
 	end
 end
@@ -447,6 +473,9 @@ function Addon:PLAYER_LOGIN()
 end
 
 function Addon:ADDON_LOADED(event, ...)
+	if AdiDebug then
+		DebugPrint = AdiDebug:GetSink(AddonName)
+	end
 	self:StopTimer()
 
 	if ... == AddonName then
