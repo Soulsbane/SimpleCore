@@ -74,22 +74,12 @@ end
 ---------------------------------------
 -- Debug Functions
 ---------------------------------------
-local function InitializeDebugFunction()
-	if AdiDebug then
-		if DebugEnabled then
-			AddonObject.DebugPrint = AdiDebug:GetSink(AddonName)
+function AddonObject:DebugPrint(...)
+	if DebugEnabled == true then
+		if self.debugHeader then
+			Printf(self.debugHeader, ...)
 		else
-			AddonObject.DebugPrint = function(...) end
-		end
-	else
-		AddonObject.DebugPrint = function(...)
-			if DebugEnabled == true then
-				if self.debugHeader then
-					Printf(self.debugHeader, ...)
-				else
-					Printf(DEBUGHEADER, ...)
-				end
-			end
+			Printf(DEBUGHEADER, ...)
 		end
 	end
 end
@@ -100,7 +90,6 @@ end
 
 function Addon:EnableDebug(enable)
 	DebugEnabled = enable
-	InitializeDebugFunction()
 end
 
 ---------------------------------------
@@ -458,7 +447,6 @@ function Addon:PLAYER_LOGIN()
 end
 
 function Addon:ADDON_LOADED(event, ...)
-	InitializeDebugFunction()
 	self:StopTimer()
 
 	if ... == AddonName then
