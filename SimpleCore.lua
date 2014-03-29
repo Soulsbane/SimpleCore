@@ -30,28 +30,6 @@ function Addon:DispatchModuleMethod(func, ...)
 	end
 end
 
-local function Printf(header, ...)
-	if select("#", ...) > 1 then
-		local success, txt = pcall(string.format, ...)
-
-	    if success then
-	        print(header .. txt)
-	    else
-	    	if DebugEnabled then --INFO: We will only make it here if a nil value was passed so only show if debug mode is enabled　
-	        	print(DEBUGHEADER .. string.gsub(txt, "'%?'", string.format("'%s'", "Printf")))
-	        end
-	    end
-	else
-		local txt = ...
-
-		if txt then
-			print(header .. txt)
-		else
-			print(DEBUGHEADER .. "Nil value was passed to Printf!")
-		end
-	end
-end
-
 local function GetFormattedString(header, ...) --TODO: Make Print use this method in the same was as DebugPrint
 	if select("#", ...) > 1 then
 		local success, txt = pcall(string.format, ...)
@@ -60,7 +38,7 @@ local function GetFormattedString(header, ...) --TODO: Make Print use this metho
 	        return (header .. txt)
 	    else
 	    	if DebugEnabled then --INFO: We will only make it here if a nil value was passed so only show if debug mode is enabled　
-	        	return (DEBUGHEADER .. string.gsub(txt, "'%?'", string.format("'%s'", "Printf")))
+	        	return (DEBUGHEADER .. string.gsub(txt, "'%?'", string.format("'%s'", "GetFormattedString")))
 	        end
 	    end
 	else
@@ -69,7 +47,7 @@ local function GetFormattedString(header, ...) --TODO: Make Print use this metho
 		if txt then
 			return (header .. txt)
 		else
-			return (DEBUGHEADER .. "Nil value was passed to Printf!")
+			return (DEBUGHEADER .. "Nil value was passed to GetFormattedString!")
 		end
 	end
 end
@@ -77,9 +55,9 @@ end
 function AddonObject:Print(...)
 	--INFO: If this is a module calling Print use its header instead
 	if self ~= Addon then
-		Printf(self.printHeader, ...)
+		print(GetFormattedString(self.printHeader, ...))
 	else
-		Printf(PRINTHEADER, ...)
+		print(GetFormattedString(PRINTHEADER, ...))
 	end
 end
 
