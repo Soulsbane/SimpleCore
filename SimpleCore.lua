@@ -30,7 +30,7 @@ function Addon:DispatchModuleMethod(func, ...)
 	end
 end
 
-local function GetFormattedString(header, ...) --TODO: Make Print use this method in the same was as DebugPrint
+local function GetFormattedString(header, ...)
 	if select("#", ...) > 1 then
 		local success, txt = pcall(string.format, ...)
 
