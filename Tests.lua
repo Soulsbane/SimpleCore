@@ -21,7 +21,7 @@ function Addon:OnInitialize()
 end
 
 function Addon:OnFullyLoaded()
-	self:RegisterSlashCommand("sctests", "OnSimpleCoreTests")
+	self:RegisterSlashCommand("sc", "OnSimpleCoreTests")
 end
 
 function Addon:OnSlashCommand(...)
