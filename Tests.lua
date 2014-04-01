@@ -11,7 +11,9 @@ local defaults = {
 function Addon:OnInitialize()
 	self:EnableDebug(true)
 	self:InitializeDB(defaults)
-	self:StartTimer(10, nil, nil, "RepeatingTimer") --NOTE: We don't need a variable here if you don't plan on ever calling StopTimer
+
+	self:StartRepeatingTimer(10, nil, "RepeatingTimer") --NOTE: We don't need a variable here if you don't plan on ever calling StopTimer
+	self:StartTimer(60, "OnNonRepeatingTimer")
 
 	self:RegisterEvent({"ZONE_CHANGED", "ZONE_CHANGED_NEW_AREA", "ZONE_CHANGED_INDOORS" }, "OnZoneChanged")
 	self:RegisterEvent("PLAYER_TARGET_CHANGED")
@@ -55,6 +57,10 @@ end
 
 function Addon:OnTimer(elapsed, name)
 	self:DebugPrint("Addon:OnTimer -> " .. tostring(elapsed) .. " " .. name)
+end
+
+function Addon:OnNonRepeatingTimer(elapsed, name)
+	self:DebugPrint("Stopping NON-Repeating timer.")
 end
 
 function Addon:OnTimerStop(name)
