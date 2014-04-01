@@ -20,7 +20,7 @@ function Addon:OnInitialize()
 	self:RegisterEvent("PLAYER_REGEN_DISABLED")
 end
 
-function Addon:OnFullyLoaded()
+function Addon:OnEnable()
 	self:RegisterSlashCommand("sc", "OnSimpleCoreTests")
 end
 
