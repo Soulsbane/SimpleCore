@@ -242,11 +242,11 @@ AddonFrame:SetScript("OnUpdate", function(self, elapsed)
 	end
 end)
 
-local function StartTimer(delay, func, repeating, name)
+local function StartTimer(object, delay, func, repeating, name)
 	local timer = {}
 	local name = name or tostring(timer) -- NOTE: If you are going to create more than one timer you should really name it
 
-	timer.object = self
+	timer.object = object
 	timer.delay = delay or 60
 	timer.repeating = true
 	timer.totalTimeElapsed = 0
@@ -266,11 +266,11 @@ local function StartTimer(delay, func, repeating, name)
 end
 
 function AddonObject:StartTimer(delay, func, name)
-	return StartTimer(delay, name, false, func)
+	return StartTimer(self, delay, func, false, name)
 end
 
 function AddonObject:StartRepeatingTimer(delay, func, name)
-	return StartTimer(delay, name, true, func)
+	return StartTimer(self, delay, func, true, name)
 end
 
 function AddonObject:StopTimer(name)
