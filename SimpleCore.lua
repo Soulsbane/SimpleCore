@@ -8,12 +8,31 @@ local MessageHandlers = {}
 local Timers = {}
 local Modules = {}
 
-local PRINTHEADER = "|cff33ff99" .. AddonName .. "|r: "
-local DEBUGHEADER = "|cff33ff99" .. AddonName .. "|cfffffb00" .. "(DEBUG)" .. "|r: "
-
 ---------------------------------------
 -- Utility Functions
 ---------------------------------------
+local function CreateObject(name, defaults, ismodule)
+	local obj
+	local name
+
+	if not name then
+		name = ""
+	else
+		name = "(" .. name .. ")"
+	end
+
+	local defaults = defaults or {
+		name = name,
+		enabled = true,
+		printHeader = "|cff33ff99" .. AddonName .. name "|r: ",
+		debugHeader = "|cff33ff99" .. AddonName .. name "|cfffffb00" .. "(DEBUG)" .. "|r: "
+	}
+
+	obj = setmetatable(defaults, { __index = AddonObject })
+
+	return obj
+end
+
 local function DispatchMethod(func, ...)
 	if type(func) == "string" and Addon[func] then
 		Addon[func](Addon, ...)
@@ -30,7 +49,7 @@ function Addon:DispatchModuleMethod(func, ...)
 	end
 end
 
-local function GetFormattedString(header, ...)
+function AddonObject:GetFormattedString(header, ...)
 	if select("#", ...) > 1 then
 		local success, txt = pcall(string.format, ...)
 
@@ -38,7 +57,7 @@ local function GetFormattedString(header, ...)
 	        return (header .. txt)
 	    else
 	    	if DebugEnabled then --INFO: We will only make it here if a nil value was passed so only show if debug mode is enabled　
-	        	return (DEBUGHEADER .. string.gsub(txt, "'%?'", string.format("'%s'", "GetFormattedString")))
+	        	return (self.debugHeader .. string.gsub(txt, "'%?'", string.format("'%s'", "GetFormattedString")))
 	        end
 	    end
 	else
@@ -47,28 +66,13 @@ local function GetFormattedString(header, ...)
 		if txt then
 			return (header .. txt)
 		else
-			return (DEBUGHEADER .. "Nil value was passed to GetFormattedString!")
+			return (self.debugHeader .. "Nil value was passed to GetFormattedString!")
 		end
 	end
 end
 
 function AddonObject:Print(...)
-	--INFO: If this is a module calling Print use its header instead
-	if self ~= Addon then
-		print(GetFormattedString(self.printHeader, ...))
-	else
-		print(GetFormattedString(PRINTHEADER, ...))
-	end
-end
-
-function Addon:SetHeaders(printHeader, debugHeader)
-	if printHeader then
-		PRINTHEADER = printHeader
-	end
-
-	if debugHeader then
-		DEBUGHEADER = debugHeader
-	end
+		print(self:GetFormattedString(self.printHeader, ...))
 end
 
 ---------------------------------------
@@ -80,11 +84,7 @@ end
 
 function AddonObject:DebugPrint(...)
 	if DebugEnabled then
-		if self ~= Addon then
-			DebugPrint(GetFormattedString(self.debugHeader, ...))
-		else
-			DebugPrint(GetFormattedString(DEBUGHEADER, ...))
-		end
+			DebugPrint(self:GetFormattedString(self.debugHeader, ...))
 	end
 end
 
@@ -393,17 +393,9 @@ end)
 -- Module System
 ---------------------------------------
 function Addon:NewModule(name, defaults)
-	local obj
-	local defaults = defaults or {
-		name = name,
-		printHeader = "|cff33ff99" .. AddonName .. "(" .. name .. ")" .. "|r: ",
-		debugHeader = "|cff33ff99" .. AddonName .. "(" .. name .. ")" .. "|cfffffb00" .. "(DEBUG)" .. "|r: ",
-		enabled = true,
-	}
+	local obj CreateObject(name, defaults, true)
 
-	obj = setmetatable(defaults, { __index = AddonObject })
 	Modules[name] = obj
-
 	return obj
 end
 
@@ -475,6 +467,6 @@ function Addon:ADDON_LOADED(event, ...)
 	end
 end
 
-setmetatable(Addon, { __index = AddonObject})
+Addon = CreateObject(AddonName, nil, false)
 Addon:RegisterEvent("PLAYER_LOGIN")
 Addon:RegisterEvent("ADDON_LOADED")
