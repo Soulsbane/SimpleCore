@@ -24,8 +24,8 @@ local function CreateObject(name, defaults, ismodule)
 	local defaults = defaults or {
 		name = name,
 		enabled = true,
-		printHeader = "|cff33ff99" .. AddonName .. name "|r: ",
-		debugHeader = "|cff33ff99" .. AddonName .. name "|cfffffb00" .. "(DEBUG)" .. "|r: "
+		printHeader = "|cff33ff99" .. AddonName .. name .. "|r: ",
+		debugHeader = "|cff33ff99" .. AddonName .. name .. "|cfffffb00" .. "(DEBUG)" .. "|r: "
 	}
 
 	obj = setmetatable(defaults, { __index = AddonObject })
