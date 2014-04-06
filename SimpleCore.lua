@@ -80,7 +80,7 @@ end
 
 function AddonObject:DebugPrint(...)
 	if DebugEnabled then
-		if self.debugHeader then
+		if self ~= Addon then
 			DebugPrint(GetFormattedString(self.debugHeader, ...))
 		else
 			DebugPrint(GetFormattedString(DEBUGHEADER, ...))
