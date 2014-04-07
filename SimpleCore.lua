@@ -12,7 +12,6 @@ local Modules = {}
 -- Utility Functions
 ---------------------------------------
 local function CreateAddonObject(name, base, ismodule)
-	local obj
 	local name = name or ""
 	local base = base or {}
 
@@ -25,9 +24,7 @@ local function CreateAddonObject(name, base, ismodule)
 	base.printHeader = "|cff33ff99" .. AddonName .. name .. "|r: "
 	base.debugHeader = "|cff33ff99" .. AddonName .. name .. "|cfffffb00" .. "(DEBUG)" .. "|r: "
 
-	obj = setmetatable(base, { __index = AddonObject })
-
-	return obj
+	return setmetatable(base, { __index = AddonObject })
 end
 
 local function DispatchMethod(func, ...)
