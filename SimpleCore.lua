@@ -11,7 +11,7 @@ local Modules = {}
 ---------------------------------------
 -- Utility Functions
 ---------------------------------------
-local function CreateObject(name, base, ismodule)
+local function CreateAddonObject(name, base, ismodule)
 	local obj
 	local name = name or ""
 	local base = base or {}
@@ -390,7 +390,7 @@ end)
 -- Module System
 ---------------------------------------
 function Addon:NewModule(name)
-	local obj = CreateObject(name, nil, true)
+	local obj = CreateAddonObject(name, nil, true)
 
 	Modules[name] = obj
 	return obj
@@ -464,6 +464,6 @@ function Addon:ADDON_LOADED(event, ...)
 	end
 end
 
-Addon = CreateObject(nil, Addon, false)
+Addon = CreateAddonObject(nil, Addon, false)
 Addon:RegisterEvent("PLAYER_LOGIN")
 Addon:RegisterEvent("ADDON_LOADED")
