@@ -11,24 +11,21 @@ local Modules = {}
 ---------------------------------------
 -- Utility Functions
 ---------------------------------------
-local function CreateObject(name, defaults, ismodule)
+local function CreateObject(name, base, ismodule)
 	local obj
-	local name
+	local name = name or ""
+	local base = base or {}
 
-	if not name then
-		name = ""
-	else
+	if ismodule then
 		name = "(" .. name .. ")"
 	end
 
-	local defaults = defaults or {
-		name = name,
-		enabled = true,
-		printHeader = "|cff33ff99" .. AddonName .. name .. "|r: ",
-		debugHeader = "|cff33ff99" .. AddonName .. name .. "|cfffffb00" .. "(DEBUG)" .. "|r: "
-	}
+	base.name = name
+	base.enabled = true
+	base.printHeader = "|cff33ff99" .. AddonName .. name .. "|r: "
+	base.debugHeader = "|cff33ff99" .. AddonName .. name .. "|cfffffb00" .. "(DEBUG)" .. "|r: "
 
-	obj = setmetatable(defaults, { __index = AddonObject })
+	obj = setmetatable(base, { __index = AddonObject })
 
 	return obj
 end
@@ -392,8 +389,8 @@ end)
 ---------------------------------------
 -- Module System
 ---------------------------------------
-function Addon:NewModule(name, defaults)
-	local obj CreateObject(name, defaults, true)
+function Addon:NewModule(name)
+	local obj = CreateObject(name, nil, true)
 
 	Modules[name] = obj
 	return obj
@@ -467,6 +464,6 @@ function Addon:ADDON_LOADED(event, ...)
 	end
 end
 
-Addon = CreateObject(AddonName, nil, false)
+Addon = CreateObject(nil, Addon, false)
 Addon:RegisterEvent("PLAYER_LOGIN")
 Addon:RegisterEvent("ADDON_LOADED")
