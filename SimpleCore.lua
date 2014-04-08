@@ -12,7 +12,6 @@ local Modules = {}
 -- Utility Functions
 ---------------------------------------
 local function CreateAddonObject(name, base)
-	--local name = name or "" --INFO: Name is only relevant for modules so nil is passed in for the main Addon object.
 	local name = name
 	local base = base or {}
 
