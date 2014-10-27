@@ -221,43 +221,36 @@ end
 --------------------------------------
 -- Timer Functions
 ---------------------------------------
-AddonFrame:SetScript("OnUpdate", function(self, elapsed)
-	for _, timer in pairs(Timers) do
-		timer.totalTimeElapsed = timer.totalTimeElapsed + elapsed
-
-		if timer.totalTimeElapsed > timer.delay then
-			timer.object[timer.func](timer.object, elapsed, timer.name)
-
-			if timer.repeating then
-				timer.totalTimeElapsed = 0
-			else
-				--INFO: If this is a non-repeating timer remove it from Timers
-				timer.object:StopTimer(timer.name)
-			end
-		end
-	end
-end)
-
 local function StartTimer(object, delay, func, repeating, name)
 	local timer = {}
 	local name = name or tostring(timer) -- NOTE: If you are going to create more than one timer you should really name it
+	local elapsed = 0 --FIXME: Remove or figure out a better use.
+
+	if delay < 0.01 then
+		delay = 0.01 -- INFO: The lowest time C_Timer API allows.
+	end
 
 	timer.object = object
 	timer.delay = delay or 60
-	timer.repeating = true
-	timer.totalTimeElapsed = 0
+	timer.repeating = repeating
 	timer.func = func or "OnTimer"
 	timer.name = name
 
-	if repeating == nil then
-		timer.repeating = true
-	else
-		timer.repeating = repeating
+	Timers[name] = timer
+
+	timer.callback = function()
+		if not timer.stopped then
+			timer.object[timer.func](timer.object, elapsed, timer.name)
+
+			if timer.repeating and not timer.stopped then
+				C_Timer.After(timer.delay, timer.callback)
+			else
+				Timers[name] = nil
+			end
+		end
 	end
 
-	Timers[name] = timer
-	AddonFrame:Show()
-
+	C_Timer.After(delay, timer.callback)
 	return name
 end
 
@@ -270,14 +263,20 @@ function AddonObject:StartRepeatingTimer(delay, func, name)
 end
 
 function AddonObject:StopTimer(name)
-	if Timers[name] then
-		DispatchMethod("OnTimerStop", name)
+	local timer = Timers[name]
+
+	if timer then
+		timer.stopped = true
 		Timers[name] = nil
+		DispatchMethod("OnTimerStop", name)
 	end
 end
 
 function AddonObject:StopAllTimers()
-	--TODO: Dispatch calls to stop functions
+	for name, _ in pairs(Timers) do
+		self:StopTimer(name)
+	end
+
 	wipe(Timers)
 	DispatchMethod("OnStopAllTimers")
 end
@@ -423,6 +422,7 @@ function Addon:DisableModule(name)
 		if obj["OnDisable"] then
 			obj:OnDisable()
 		end
+		--FIXME: Timers might keep going after disabling.
 		obj:UnregisterAllEvents()
 		obj.enabled = false
 	else
@@ -450,7 +450,6 @@ function Addon:ADDON_LOADED(event, ...)
 	if AdiDebug then
 		DebugPrint = AdiDebug:GetSink(AddonName)
 	end
-	self:StopTimer()
 
 	if ... == AddonName then
 		self:UnregisterEvent("ADDON_LOADED")
