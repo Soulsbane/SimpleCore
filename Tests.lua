@@ -32,8 +32,11 @@ function Addon:OnSlashCommand(...)
 	if msg == "unregisterallevents" then
 		self:UnregisterAllEvents()
 	elseif msg == "timer" and nextMsg == "stop" then
-		self:DebugPrint("Stoping timer...")
+		self:DebugPrint("Stopping timer...")
 		self:StopTimer("RepeatingTimer")
+	elseif msg == "timer" and nextMsg == "stopall" then
+		self:DebugPrint("Stopping timers...")
+		self:StopAllTimers()
 	elseif msg == "timer" and nextMsg == "start" then
 		self:DebugPrint("Starting timer...")
 		self:StartTimer(20, nil, "slash")
