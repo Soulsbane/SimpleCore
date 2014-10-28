@@ -49,13 +49,13 @@ function AddonObject:GetFormattedString(header, ...)
 	if select("#", ...) > 1 then
 		local success, txt = pcall(string.format, ...)
 
-	    if success then
-	        return (header .. txt)
-	    else
-	    	if DebugEnabled then --INFO: We will only make it here if a nil value was passed so only show if debug mode is enabled　
-	        	return (self.debugHeader .. string.gsub(txt, "'%?'", string.format("'%s'", "GetFormattedString")))
-	        end
-	    end
+		if success then
+			return (header .. txt)
+		else
+			if DebugEnabled then --INFO: We will only make it here if a nil value was passed so only show if debug mode is enabled　
+				return (self.debugHeader .. string.gsub(txt, "'%?'", string.format("'%s'", "GetFormattedString")))
+			end
+		end
 	else
 		local txt = ...
 

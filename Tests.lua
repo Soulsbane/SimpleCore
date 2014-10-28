@@ -1,7 +1,7 @@
  local AddonName, Addon = ...
 _G[AddonName] = Addon
 
-local defaults = {
+local Defaults = {
 	pingMsg = "Ping from: ",
 	coords = 0.0,
 	zone = "The Jade Forest",
@@ -10,7 +10,7 @@ local defaults = {
 
 function Addon:OnInitialize()
 	self:EnableDebug(true)
-	self:InitializeDB(defaults)
+	self:InitializeDB(Defaults)
 
 	self:StartRepeatingTimer(10, nil, "RepeatingTimer") --NOTE: We don't need a variable here if you don't plan on ever calling StopTimer
 	self:StartTimer(60, "OnNonRepeatingTimer")
