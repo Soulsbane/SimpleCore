@@ -36,7 +36,7 @@ function Addon:OnSlashCommand(...)
 		self:StopTimer("RepeatingTimer")
 	elseif msg == "timer" and nextMsg == "start" then
 		self:DebugPrint("Starting timer...")
-		self:StartTimer()
+		self:StartTimer(20, nil, "slash")
 	elseif msg == "enable" and nextMsg then
 		self:DebugPrint("Enabling module %s", nextMsg)
 		self:EnableModule(nextMsg)
