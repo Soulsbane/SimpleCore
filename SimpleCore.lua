@@ -224,7 +224,6 @@ end
 local function StartTimer(object, delay, func, repeating, name)
 	local timer = {}
 	local name = name or tostring(timer) -- NOTE: If you are going to create more than one timer you should really name it
-	local elapsed = 0 --FIXME: Remove or figure out a better use.
 
 	if delay < 0.01 then
 		delay = 0.01 -- INFO: The lowest time C_Timer API allows.
@@ -240,7 +239,7 @@ local function StartTimer(object, delay, func, repeating, name)
 
 	timer.callback = function()
 		if not timer.stopped then
-			timer.object[timer.func](timer.object, elapsed, timer.name)
+			timer.object[timer.func](timer.object, timer.name)
 
 			if timer.repeating and not timer.stopped then
 				C_Timer.After(timer.delay, timer.callback)

@@ -58,11 +58,11 @@ function Addon:OnSimpleCoreTests(...)
 	self:DebugPrint("OnSimpleCoreTests: " .. msg)
 end
 
-function Addon:OnTimer(elapsed, name)
-	self:DebugPrint("Addon:OnTimer -> " .. tostring(elapsed) .. " " .. name)
+function Addon:OnTimer(name)
+	self:DebugPrint("Addon:OnTimer -> " .. name)
 end
 
-function Addon:OnNonRepeatingTimer(elapsed, name)
+function Addon:OnNonRepeatingTimer(name)
 	self:DebugPrint("Stopping NON-Repeating timer.")
 end
 
