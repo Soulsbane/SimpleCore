@@ -5,6 +5,6 @@ function Module:OnInitialize()
 	self:StartTimer(30, "NonRepeatingTimer", "TimerModuleTimer")
 end
 
-function Module:NonRepeatingTimer(elapsed, name)
+function Module:NonRepeatingTimer(name)
 	self:DebugPrint("NonRepeatingTimer..." .. name)
 end
