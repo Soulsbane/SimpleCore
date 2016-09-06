@@ -26,6 +26,9 @@ function Addon:OnEnable()
 	self:RegisterSlashCommand("sc", "OnSimpleCoreTests")
 end
 
+function Addon:OnAddonLoaded(name)
+end
+
 function Addon:OnSlashCommand(...)
 	local msg, nextMsg = ...
 

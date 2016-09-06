@@ -52,7 +52,7 @@ function AddonObject:GetFormattedString(header, ...)
 		if success then
 			return (header .. txt)
 		else
-			if DebugEnabled then --INFO: We will only make it here if a nil value was passed so only show if debug mode is enabled　
+			if DebugEnabled then --INFO: We will only make it here if a nil value was passed so only show if debug mode is enabled
 				return (self.debugHeader .. string.gsub(txt, "'%?'", string.format("'%s'", "GetFormattedString")))
 			end
 		end
@@ -451,13 +451,14 @@ function Addon:ADDON_LOADED(event, ...)
 	end
 
 	if ... == AddonName then
-		self:UnregisterEvent("ADDON_LOADED")
 		DispatchMethod("OnInitialize")
 		self:DispatchModuleMethod("OnInitialize")
 
 		if IsLoggedIn() then
 			self:PLAYER_LOGIN()
 		end
+	else
+		DispatchMethod("OnAddonLoaded", ...)
 	end
 end
 
