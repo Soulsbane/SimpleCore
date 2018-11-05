@@ -1,4 +1,4 @@
-## Interface: 70000
+## Interface: 80000
 ## Title: SimpleCore
 ## Notes: A simple framework for creating addons
 ## Author: Soulsbane
