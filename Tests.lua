@@ -12,8 +12,9 @@ function Addon:OnInitialize()
 	self:EnableDebug(true)
 	self:InitializeDB(Defaults)
 
-	self:StartRepeatingTimer(10, nil, "RepeatingTimer") --NOTE: We don't need a variable here if you don't plan on ever calling StopTimer
-	self:StartTimer(60, "OnNonRepeatingTimer")
+	--self:StartRepeatingTimer(10, nil, "RepeatingTimer") --NOTE: We don't need a variable here if you don't plan on ever calling StopTimer
+	self:StartRepeatingTimer(10, "OnRepeatingPauseTimer", "RepeatingPauseTimer") --NOTE: We don't need a variable here if you don't plan on ever calling StopTimer
+	--self:StartTimer(60, "OnNonRepeatingTimer")
 
 	self:RegisterEvent({"ZONE_CHANGED", "ZONE_CHANGED_NEW_AREA", "ZONE_CHANGED_INDOORS" }, "OnZoneChanged")
 	self:RegisterEvent("PLAYER_TARGET_CHANGED")
@@ -23,7 +24,8 @@ function Addon:OnInitialize()
 end
 
 function Addon:OnEnable()
-	self:RegisterSlashCommand("sc", "OnSimpleCoreTests")
+	--self:RegisterSlashCommand("sc", "OnSimpleCoreTests")
+	self:RegisterSlashCommand("sc")
 end
 
 function Addon:OnAddonLoaded(name)
@@ -51,8 +53,14 @@ function Addon:OnSlashCommand(...)
 		self:DisableModule(nextMsg)
 	elseif msg == "pingmsg" and nextMsg then
 		self.db.pingMsg = nextMsg
+	elseif msg == "pause" then
+		--self:DebugPrint("Pausing...")
+		self:PauseTimer("RepeatingPauseTimer")
+	elseif msg == "resume" then
+		--self:DebugPrint("Resuming...")
+		self:ResumeTimer("RepeatingPauseTimer")
 	else
-		self:DebugPrint(msg)
+		self:DebugPrint("DEFAULT SLASH COMMAND HANDLER: " .. msg)
 	end
 end
 
@@ -67,6 +75,18 @@ end
 
 function Addon:OnNonRepeatingTimer(name)
 	self:DebugPrint("Stopping NON-Repeating timer.")
+end
+
+function Addon:OnRepeatingPauseTimer(name)
+	self:DebugPrint("OnRepeatingPauseTimer tick -> " .. name)
+end
+
+function Addon:OnTimerPause(name)
+	self:DebugPrint("Pausing: " .. name)
+end
+
+function Addon:OnTimerResume(name)
+	self:DebugPrint("Resuming: " .. name)
 end
 
 function Addon:OnTimerStop(name)

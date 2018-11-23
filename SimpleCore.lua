@@ -234,6 +234,7 @@ local function StartTimer(object, delay, func, repeating, name)
 	timer.repeating = repeating
 	timer.func = func or "OnTimer"
 	timer.name = name
+	timer.paused = false
 
 	Timers[name] = timer
 
@@ -241,7 +242,8 @@ local function StartTimer(object, delay, func, repeating, name)
 		if not timer.stopped then
 			timer.object[timer.func](timer.object, timer.name)
 
-			if timer.repeating and not timer.stopped then
+			--if timer.repeating and not timer.stopped then
+			if timer.repeating and not timer.stopped and not timer.paused then
 				C_Timer.After(timer.delay, timer.callback)
 			else
 				Timers[name] = nil
@@ -278,6 +280,24 @@ function AddonObject:StopAllTimers()
 
 	wipe(Timers)
 	DispatchMethod("OnStopAllTimers")
+end
+
+function AddonObject:PauseTimer(name)
+	local timer = Timers[name]
+
+	if timer then
+		timer.paused = true
+		DispatchMethod("OnTimerPause", name)
+	end
+end
+
+function AddonObject:ResumeTimer(name)
+	local timer = Timers[name]
+
+	if timer then
+		timer.paused = false
+		DispatchMethod("OnTimerResume", name)
+	end
 end
 
 function AddonObject:SetTimerDelay(name, delay)
