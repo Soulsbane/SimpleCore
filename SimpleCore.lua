@@ -291,6 +291,14 @@ function AddonObject:PauseTimer(name)
 	end
 end
 
+function AddonObject:PauseAllTimers()
+	for name, _ in pairs(Timers) do
+		self:PauseTimer(name)
+	end
+
+	DispatchMethod("OnPauseAllTimers")
+end
+
 function AddonObject:ResumeTimer(name)
 	local timer = Timers[name]
 
@@ -300,6 +308,14 @@ function AddonObject:ResumeTimer(name)
 
 		DispatchMethod("OnTimerResume", name)
 	end
+end
+
+function AddonObject:ResumeAllTimers()
+	for name, _ in pairs(Timers) do
+		self:ResumeTimer(name)
+	end
+
+	DispatchMethod("OnResumeAllTimers")
 end
 
 function AddonObject:SetTimerDelay(name, delay)
