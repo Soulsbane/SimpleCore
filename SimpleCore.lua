@@ -296,6 +296,8 @@ function AddonObject:ResumeTimer(name)
 
 	if timer then
 		timer.paused = false
+		timer.callback()
+
 		DispatchMethod("OnTimerResume", name)
 	end
 end
