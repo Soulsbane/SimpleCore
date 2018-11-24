@@ -239,7 +239,7 @@ local function StartTimer(object, delay, func, repeating, name)
 	Timers[name] = timer
 
 	timer.callback = function()
-		if not timer.stopped then
+		if not timer.stopped and not timer.paused then
 			timer.object[timer.func](timer.object, timer.name)
 
 			--if timer.repeating and not timer.stopped then
